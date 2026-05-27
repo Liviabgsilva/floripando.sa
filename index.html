@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floripando | Magia da Ilha</title>
+    
+    <!-- Tipografia e Ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Estilos Customizados -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Bibliotecas de Animação -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+</head>
+<body>
+
+    <!-- Cursor Personalizado -->
+    <div id="custom-cursor"></div>
+
+    <!-- Ecrã de Carregamento (Loader) -->
+    <div id="loader">
+        <div class="loader-content">
+            <h1 class="logo-text">FLORI<span>PANDO</span></h1>
+            <p class="loader-sub">A carregar a melhor experiência...</p>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra de Navegação Fixa (Glassmorphism) -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo" onclick="showView('home')">
+                FLORI<span>PANDO</span>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="javascript:void(0)" onclick="showView('home')">Início</a></li>
+                <li><a href="javascript:void(0)" onclick="showView('praias')">Praias</a></li>
+                <li><a href="javascript:void(0)" onclick="showView('eventos')">Eventos</a></li>
+                <li><a href="javascript:void(0)" onclick="showView('hospedagem')">Hospedagem</a></li>
+                <li><a href="javascript:void(0)" onclick="showView('gastronomia')">Gastronomia</a></li>
+                <li><a href="javascript:void(0)" onclick="showView('contato')">Contacto</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <!-- Botões de Autenticação -->
+                <div id="nav-auth">
+                    <button class="btn-login-trigger" onclick="showView('login')">Entrar</button>
+                </div>
+                <!-- Perfil do Utilizador (Oculto inicialmente) -->
+                <div id="user-nav" class="user-profile-nav hidden" onclick="showView('perfil')">
+                    <span id="user-nav-name">Olá, Viajante</span>
+                    <img id="user-nav-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100" alt="Avatar do Utilizador">
+                </div>
+            </div>
+
+            <!-- Hamburguer para Mobile -->
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Mobile Lateral -->
+    <div id="mobile-menu" class="glass-mobile">
+        <ul class="mobile-nav-links">
+            <li><a href="javascript:void(0)" onclick="showView('home'); toggleMobileMenu()">Início</a></li>
+            <li><a href="javascript:void(0)" onclick="showView('praias'); toggleMobileMenu()">Praias</a></li>
+            <li><a href="javascript:void(0)" onclick="showView('eventos'); toggleMobileMenu()">Eventos</a></li>
+            <li><a href="javascript:void(0)" onclick="showView('hospedagem'); toggleMobileMenu()">Hospedagem</a></li>
+            <li><a href="javascript:void(0)" onclick="showView('gastronomia'); toggleMobileMenu()">Gastronomia</a></li>
+            <li><a href="javascript:void(0)" onclick="showView('contato'); toggleMobileMenu()">Contacto</a></li>
+        </ul>
+    </div>
+
+    <!-- ÁREA DE CONTEÚDO DINÂMICO -->
+    <main id="main-content">
+
+        <!-- PÁGINA INICIAL (HOME) -->
+        <section id="view-home" class="view active">
+            <div class="hero">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <h3 class="reveal">Venha conhecer as maravilhas da Ilha</h3>
+                    <h1 class="reveal">Sinta a Magia de <br>Florianópolis</h1>
+                    <p class="reveal-delay">Descubra refúgios exclusivos, gastronomia premiada e praias paradisíacas no sul do Brasil.</p>
+                    <div class="search-bar reveal-delay">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="main-search-input" placeholder="O que deseja explorar hoje? (ex: Jurerê, Ostradamus...)">
+                        <button onclick="executeSearch()">Explorar</button>
+                    </div>
+                </div>
+                <div class="scroll-indicator" onclick="scrollToSection('destinos-populares')">
+                    <span>Deslizar</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <!-- Destinos Populares -->
+            <section id="destinos-populares" class="section-padding">
+                <div class="container">
+                    <header class="section-header">
+                        <h4 class="subtitle">Curadoria de Prestígio</h4>
+                        <h2 class="title">Destinos Populares</h2>
+                    </header>
+                    <div class="grid" id="destinos-grid">
+                        <!-- Gerado Dinamicamente via JS -->
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- PÁGINA DE PRAIAS -->
+        <section id="view-praias" class="view section-padding">
+            <div class="container">
+                <header class="section-header">
+                    <h4 class="subtitle">Águas de Cristal</h4>
+                    <h2 class="title">Praias Cinematográficas</h2>
+                    <p class="section-desc">Filtre as melhores enseadas da ilha consoante o seu estilo de viagem.</p>
+                </header>
+                <div class="filter-group">
+                    <button class="filter-btn active" onclick="filterPraias('todas')">Todas</button>
+                    <button class="filter-btn" onclick="filterPraias('Norte')">Norte da Ilha</button>
+                    <button class="filter-btn" onclick="filterPraias('Sul')">Sul da Ilha</button>
+                    <button class="filter-btn" onclick="filterPraias('Leste')">Leste</button>
+                </div>
+                <div class="grid" id="praias-grid">
+                    <!-- Gerado Dinamicamente via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PÁGINA DE EVENTOS -->
+        <section id="view-eventos" class="view section-padding">
+            <div class="container">
+                <header class="section-header">
+                    <h4 class="subtitle">Agenda</h4>
+                    <h2 class="title">Eventos em Destaque</h2>
+                    <p class="section-desc">Confira os próximos eventos e experiências exclusivas na ilha.</p>
+                </header>
+                <div class="grid" id="eventos-grid">
+                    <!-- Gerado Dinamicamente via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PÁGINA DE HOSPEDAGEM -->
+        <section id="view-hospedagem" class="view section-padding">
+            <div class="container">
+                <header class="section-header">
+                    <h4 class="subtitle">Refúgios de Sonho</h4>
+                    <h2 class="title">Hospedagens Exclusivas</h2>
+                    <p class="section-desc">Hotéis, Boutique, Resorts Ecológicos e villas Luxuosas de frente para o mar.</p>
+                </header>
+                <div class="grid" id="hospedagem-grid">
+                    <!-- Gerado Dinamicamente via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PÁGINA DE GASTRONOMIA -->
+        <section id="view-gastronomia" class="view section-padding">
+            <div class="container">
+                <header class="section-header">
+                    <h4 class="subtitle">Experiências Sensoriais</h4>
+                    <h2 class="title">Alta Gastronomia</h2>
+                    <p class="section-desc">Dos tradicionais engenhos de ostras do Ribeirão aos restaurantes galardoados de Jurerê.</p>
+                </header>
+                <div class="filter-group">
+                    <button class="filter-btn active" onclick="filterGastronomia('todos')">Todos</button>
+                    <button class="filter-btn" onclick="filterGastronomia('frutos-do-mar')">Frutos do Mar</button>
+                    <button class="filter-btn" onclick="filterGastronomia('italiana')">Italiana</button>
+                    <button class="filter-btn" onclick="filterGastronomia('contemporanea')">Contemporânea</button>
+                </div>
+                <div class="grid" id="gastronomia-grid">
+                    <!-- Gerado Dinamicamente via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PÁGINA DE CONTACTO -->
+        <section id="view-contato" class="view section-padding flex-center">
+            <div class="contact-card glass">
+                <div class="contact-info">
+                    <h2>Entre em Contacto</h2>
+                    <p class="contact-sub">Estamos prontos para fazer a sua viagem se tornar realidade.</p>
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>(48) 99641 0535</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>viagem@floripando.com</span>
+                    </div>
+                </div>
+                <form class="contact-form" onsubmit="handleContactSubmit(event)">
+                    <input type="text" id="contact-name" placeholder="Nome Completo" required>
+                    <input type="email" id="contact-email" placeholder="E-mail de Contacto" required>
+                    <textarea id="contact-message" placeholder="Como o podemos ajudar a planear?" rows="5" required></textarea>
+                    <button type="submit" class="btn-submit">Enviar Pedido</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- PÁGINA DE LOGIN -->
+        <section id="view-login" class="view flex-center">
+            <div class="auth-card glass">
+                <h2>Acender à Experiência</h2>
+                <p class="auth-sub">Faça login para gerar as suas reservas e favoritos.</p>
+                
+                <div class="auth-inputs">
+                    <div class="input-wrapper">
+                        <i class="far fa-envelope"></i>
+                        <input type="email" id="login-email" placeholder="E-mail de utilizador">
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="login-pass" placeholder="Palavra-passe">
+                    </div>
+                </div>
+
+                <button class="btn-auth-submit" onclick="authAction('login')">Entrar na Ilha</button>
+                <p class="auth-switch">Ainda não é membro? <a href="javascript:void(0)" onclick="showView('cadastro')">Crie a sua conta</a></p>
+            </div>
+        </section>
+
+        <!-- PÁGINA DE CADASTRO -->
+        <section id="view-cadastro" class="view flex-center">
+            <div class="auth-card glass">
+                <h2>Cadastro </h2>
+                <p class="auth-sub">Registe os seus dados e ganhe acesso para planejar rotas.</p>
+
+                <div class="auth-inputs">
+                    <div class="input-wrapper">
+                        <i class="far fa-user"></i>
+                        <input type="text" id="reg-name" placeholder="Nome Completo">
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="far fa-envelope"></i>
+                        <input type="email" id="reg-email" placeholder="Endereço de E-mail">
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="reg-pass" placeholder="Palavra-passe">
+                    </div>
+                </div>
+
+                <button class="btn-auth-submit" onclick="authAction('register')">Finalizar Registo</button>
+                <p class="auth-switch">Já possui conta? <a href="javascript:void(0)" onclick="showView('login')">Fazer Login</a></p>
+            </div>
+        </section>
+
+        <!-- DASHBOARD DO UTILIZADOR (PERFIL) -->
+        <section id="view-perfil" class="view section-padding">
+            <div class="container profile-layout">
+                <aside class="profile-sidebar glass">
+                    <div class="profile-header">
+                        <div class="avatar-edit-wrapper">
+                            <img id="profile-display-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200" alt="Foto de Perfil">
+                            <label for="avatar-upload" class="avatar-overlay">
+                                <i class="fas fa-camera"></i>
+                            </label>
+                            <input type="file" id="avatar-upload" style="display: none;" onchange="handleAvatarChange(event)">
+                        </div>
+                        <h3 id="profile-display-name">Nome do Utilizador</h3>
+                        <p id="profile-display-email">email@exemplo.com</p>
+                        <span class="user-badge">Cliente </span>
+                    </div>
+
+                    <div class="profile-nav-menu">
+                        <button class="tab-btn active" onclick="switchProfileTab('dados')"><i class="fas fa-id-card"></i> Meus Dados</button>
+                        <button class="tab-btn" onclick="switchProfileTab('favoritos')"><i class="fas fa-heart"></i> Favoritos</button>
+                        <button class="tab-btn" onclick="switchProfileTab('viagens')"><i class="fas fa-plane"></i> Histórico de Viagens</button>
+                        <button class="tab-btn btn-logout" onclick="authAction('logout')"><i class="fas fa-sign-out-alt"></i> Encerrar Sessão</button>
+                    </div>
+                </aside>
+
+                <div class="profile-content-area glass">
+                    <!-- Aba: Dados -->
+                    <div id="tab-dados" class="tab-content active">
+                        <h2>Dados Pessoais</h2>
+                        <p class="tab-sub">Atualize as suas informações de contacto e preferências de viagem.</p>
+                        <div class="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nome Completo</label>
+                                    <input type="text" id="edit-name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Telefone / WhatsApp</label>
+                                    <input type="text" id="edit-phone" value="(48) 99641 0535">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Cidade / Localização</label>
+                                    <input type="text" id="edit-location" placeholder="Ex: Lisboa, Portugal">
+                                </div>
+                                <div class="form-group">
+                                    <label>Tipo de Viagem Preferido</label>
+                                    <select id="edit-travel-style">
+                                        <option value="luxo">Luxo & Conforto</option>
+                                        <option value="aventura">Aventura & Natureza</option>
+                                        <option value="gastronomico">Roteiro Gastronómico</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn-save-profile" onclick="updateProfile()">Guardar Alterações</button>
+                                <button class="btn-delete-account" onclick="deleteAccount()">Eliminar Perfil</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aba: Favoritos -->
+                    <div id="tab-favoritos" class="tab-content">
+                        <h2>Os Meus Favoritos</h2>
+                        <p class="tab-sub">Lista de desejos e locais que pretende visitar brevemente.</p>
+                        <div class="grid" id="favorites-grid">
+                            <!-- Injetado via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Aba: Histórico -->
+                    <div id="tab-viagens" class="tab-content">
+                        <h2>Histórico de Viagens</h2>
+                        <p class="tab-sub">Consulte as suas reservas confirmadas e aventuras passadas.</p>
+                        <div class="history-list" id="history-list">
+                            <!-- Injetado via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Chat Concierge Inteligente (IA) -->
+    <div id="chat-widget">
+        <div id="chat-window" class="glass-chat hidden">
+            <div class="chat-header">
+                <div class="chat-header-title">
+                    <div class="status-indicator"></div>
+                    <span>Concierge Premium</span>
+                </div>
+                <button class="btn-close-chat" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="chat-body" class="chat-body">
+                <div class="chat-message bot">
+                    Olá! Sou o seu concierge virtual privado. Posso ajudar a encontrar o melhor restaurante ou organizar as suas reservas em Florianópolis 
+                </div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chat-input" placeholder="Escreva a sua mensagem..." onkeypress="handleChatKey(event)">
+                <button onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <button id="chat-toggle" onclick="toggleChat()">
+            <i class="fas fa-concierge-bell"></i>
+        </button>
+    </div>
+
+    <!-- Rodapé Premium -->
+    <footer class="footer-premium">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h2>FLORI<span>PANDO</span></h2>
+                <p>A curadoria definitiva para quem exige o extraordinário. Viva a Ilha de Santa Catarina na sua máxima sofisticação.</p>
+                <div class="footer-socials">
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Descobrir</h4>
+                <ul>
+                    <li><a href="javascript:void(0)" onclick="showView('praias')">As Praias</a></li>
+                    <li><a href="javascript:void(0)" onclick="showView('hospedagem')">Onde Ficar</a></li>
+                    <li><a href="javascript:void(0)" onclick="showView('gastronomia')">Gastronomia</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Reservas e Suporte</h4>
+                <p><i class="fas fa-phone-alt"></i> (48) 99641 0535</p>
+                <p><i class="fas fa-envelope"></i> viagem@floripando.com</p>
+                <p class="footer-local">Florianópolis, SC — Brasil</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Floripa Premium. Desenvolvido com padrões de luxo internacionais. Todos os direitos reservados.</p>
+        </div>
+        <div class="footer-map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3531.7526449820817!2d-48.5521!3d-27.5973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95193c2e2e2e2e2f%3A0x0!2sFlorianópolis%2C%20Santa%20Catarina!5e0!3m2!1spt-BR!2sbr!4v1716014000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de Florianópolis"></iframe>
+        </div>
+    </footer>
+<script src="script.js"></script>
+</body>
+</html>
