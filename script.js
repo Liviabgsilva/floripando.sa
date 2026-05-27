@@ -50,14 +50,14 @@ function getPraiaImage(nome) {
 
 const DATA = {
     destinos: [
-        { nome: "Jurerê Internacional", desc: "Luxo, beach clubs sofisticados e mansões à beira-mar.", img: "img/praias/praia jurere.png", cat: "Norte" },
-        { nome: "Santo Antônio de Lisboa", desc: "Cultura açoriana, arquitetura preservada e o melhor pôr-do-sol.", img:"img/praias/Santo Antônio de Lisboa.png",  cat: "Norte" },
-        { nome: "Praia do Campeche", desc: "Natureza selvagem, ondas perfeitas e a mística Ilha do Campeche.", img: "img/praias/Praia do Campeche.png", cat: "Sul" },]
+        { nome: "Jurerê Internacional", desc: "Luxo, beach clubs sofisticados e mansões à beira-mar.", img: "", cat: "Norte" },
+        { nome: "Santo Antônio de Lisboa", desc: "Cultura açoriana, arquitetura preservada e o melhor pôr-do-sol.", img:"",  cat: "Norte" },
+        { nome: "Praia do Campeche", desc: "Natureza selvagem, ondas perfeitas e a mística Ilha do Campeche.", img: "", cat: "Sul" },]
     praias: [
         // --- NORTE DA ILHA ---
-        { nome: "praia Jurerê", desc: "Águas calmas e quentes, excelente para famílias com excelente infraestrutura.", regiao: "Norte", img: "img/praias/praia jurere.png", temp: "25°C", lotacao: "Alta" },
-        { nome: "Jurerê Internacional", desc: "Sinónimo de luxo, mansões e beach clubs exclusivos com festas sunset.", regiao: "Norte", img: "img/praias/Jurerê Internacional.png", temp: "25°C", lotacao: "Muito Alta" },
-        { nome: "Canasvieiras", desc: "Um dos destinos mais procurados por turistas do Mercosul, mar tranquilo e comércio forte.", regiao: "Norte", img: "img/praias/canasvieiras.png", temp: "24°C", lotacao: "Muito Alta" },
+        { nome: "praia Jurerê", desc: "Águas calmas e quentes, excelente para famílias com excelente infraestrutura.", regiao: "Norte", img: "", temp: "25°C", lotacao: "Alta" },
+        { nome: "Jurerê Internacional", desc: "Sinónimo de luxo, mansões e beach clubs exclusivos com festas sunset.", regiao: "Norte", img: "", temp: "25°C", lotacao: "Muito Alta" },
+        { nome: "Canasvieiras", desc: "Um dos destinos mais procurados por turistas do Mercosul, mar tranquilo e comércio forte.", regiao: "Norte", img: "", temp: "24°C", lotacao: "Muito Alta" },
         { nome: "Cachoeira do Bom Jesus", desc: "Extensão de Canasvieiras, com faixa de areia larga e águas convidativas.", regiao: "Norte", img: "", temp: "24°C", lotacao: "Média" },
         { nome: "Ponta das Canas", desc: "Praia charmosa na ponta norte da ilha com colónias de pescadores.", regiao: "Norte", img:"", temp: "23°C", lotacao: "Média" },
         { nome: "Lagoinha (do Norte)", desc: "Pequena e abrigada, com formato de ferradura e mar cristalino.", regiao: "Norte", img: "", temp: "24°C", lotacao: "Média" },
@@ -66,21 +66,21 @@ const DATA = {
         { nome: "Praia do Santinho", desc: "História e natureza encontram-se. Famosa pelo resort e pelas inscrições rupestres.", regiao: "Norte", img:"", temp: "23°C", lotacao: "Alta" },
         { nome: "Praia do Forte", desc: "Junto à histórica Fortaleza de São José da Ponta Grossa. Mar calmo e extenso.", regiao: "Norte", img: "", temp: "24°C", lotacao: "Média" },
         { nome: "Praia da Daniela", desc: "Mar calmo e quente que parece uma lagoa. Ideal para crianças e famílias.", regiao: "Norte", img:"", temp: "25°C", lotacao: "Média" },
-        { nome: "Sambaqui", desc: "Raízes açorianas fortes, gastronomia focada em ostras e cenário bucólico.", regiao: "Norte", img: "img/praias/Sambaqui.jpg", temp: "23°C", lotacao: "Baixa" },
+        { nome: "Sambaqui", desc: "Raízes açorianas fortes, gastronomia focada em ostras e cenário bucólico.", regiao: "Norte", img: "", temp: "23°C", lotacao: "Baixa" },
         { nome: "Santo Antônio de Lisboa", desc: "Um dos bairros mais antigos de Florianópolis, com arquitetura colonial e pôr do sol famoso.", regiao: "Norte", img: "", temp: "22°C", lotacao: "Média" },
         { nome: "Cacupé", desc: "Orla requintada com restaurantes sofisticados e vista espetacular para a Beira-Mar.", regiao: "Norte", img:"", temp: "23°C", lotacao: "Baixa" },
 
         // --- LESTE DA ILHA ---
         { nome: "Barra da Lagoa", desc: "O maior núcleo pesqueiro da ilha, com o Canal da Barra e piscinas naturais.", regiao: "Leste", img: "", temp: "22°C", lotacao: "Muito Alta" },
-        { nome: "Prainha da Barra", desc: "Pequena e escondida, acessível por uma curta trilha na Barra da Lagoa.", regiao: "Leste", img: "img/praias/Prainha da Barra.jpg", temp: "22°C", lotacao: "Média" },
+        { nome: "Prainha da Barra", desc: "Pequena e escondida, acessível por uma curta trilha na Barra da Lagoa.", regiao: "Leste", img: "", temp: "22°C", lotacao: "Média" },
         { nome: "Praia Mole", desc: "Ponto de encontro da viajem ativa, surfistas, parapente e bares com DJs.", regiao: "Leste", img: "", temp: "23°C", lotacao: "Alta" },
         { nome: "Praia da Galheta", desc: "Acessível apenas por trilha e reservada para o naturismo (opcional).", regiao: "Leste", img:"", temp: "22°C", lotacao: "Baixa" },
-        { nome: "Praia da Joaquina", desc: "Reconhecimento internacional no surf. Dunas imensas famosas para a prática de sandboard.", regiao: "Leste", img: "img/praias/Praia da Joaquina.jpg", temp: "23°C", lotacao: "Muito Alta" },
+        { nome: "Praia da Joaquina", desc: "Reconhecimento internacional no surf. Dunas imensas famosas para a prática de sandboard.", regiao: "Leste", img: "", temp: "23°C", lotacao: "Muito Alta" },
         { nome: "Praia do Gravatá", desc: "Trilha escondida, com relvados perfeitos para piquenique e mar aberto.", regiao: "Leste", img:"", temp: "22°C", lotacao: "Baixa" },
         { nome: "Praia do Moçambique", desc: "A maior extensão de areia da ilha (12km). Selvagem e preservada dentro de um parque estadual.", regiao: "Leste", img: "", temp: "21°C", lotacao: "Baixa" },
 
         // --- SUL DA ILHA ---
-        { nome: "Praia do Campeche", desc: "Mar aberto de águas cristalinas com vista magnífica para a Ilha do Campeche.", regiao: "Sul", img: "img/praias/Praia da Ilha do Campeche, Florianópolis, Santa Catarina, Brasil.jpg", temp: "22°C", lotacao: "Alta" },
+        { nome: "Praia do Campeche", desc: "Mar aberto de águas cristalinas com vista magnífica para a Ilha do Campeche.", regiao: "Sul", img: "", temp: "22°C", lotacao: "Alta" },
         { nome: "Praia da Armação", desc: "Tradicional vila de pescadores, com a icónica Igreja de Sant'Ana.", regiao: "Sul", img:"", temp: "22°C", lotacao: "Média" },
         { nome: "Praia do Matadeiro", desc: "Paraíso do surf no Sul da ilha. Acessível apenas atravessando o rio.", regiao: "Sul", img: "", temp: "21°C", lotacao: "Média" },
         { nome: "Praia do Morro das Pedras", desc: "Rodeada de rochas escuras, com ondas fortes e um miradouro espetacular no Convento.", regiao: "Sul", img:"", temp: "21°C", lotacao: "Baixa" },
