@@ -1,47 +1,47 @@
 // --- DADOS DINÂMICOS DO SITE (MOCK DATA) ---
-const imgGenerica1 = "";
-const imgGenerica2 = "";
-const imgGenerica3 = "";
-const imgGenerica ="";
+const img = "img.praias/Barra da Lagoa.png";
+const img = "img.praias/Cacupé.png";
+const img = "img.praias/canasvieiras.png";
+const img ="img.praias/Jurerê Internacional.png";
 
 const PRAIA_IMAGES = {
-    "Jurerê": "img/Jurere, Santa Catarina.jpg",
-    "Jurerê Internacional": "",
-    "Canasvieiras": "",
-    "Cachoeira do Bom Jesus": "",
-    "Ponta das Canas": "",
-    "Lagoinha (do Norte)": "",
-    "Praia Brava": "https": "",
-    "Praia dos Ingleses": "",
-    "Praia do Santinho": "",
-    "Praia do Forte": "",
-    "Praia da Daniela": "",
-    "Sambaqui": "",
-    "Santo Antônio de Lisboa": "",
-    "Cacupé": "",
-    "Barra da Lagoa": "",
-    "Prainha da Barra": "",
-    "Praia Mole": "",
-    "Praia da Galheta": "",
-    "Praia da Joaquina": "",
-    "Praia do Gravatá": "",
-    "Praia do Moçambique": "",
-    "Praia da Armação": "",
-    "Praia do Matadeiro": "",
-    "Praia do Morro das Pedras": "",
-    "Praia do Pântano do Sul": "",
-    "Praia dos Açores": "",
-    "Praia da Solidão": "",
-    "Praia do Saquinho": "",
-    "Praia da Lagoinha do Leste": "",
-    "Praia de Naufragados": "",
-    "Ribeirão da Ilha": "",
-    "Tapera": "",
-    "Praia de Itaguaçu": "",
-    "Praia das Palmeiras": "",
-    "Praia da Saudade": "",
-    "Praia do Meio": "",
-    "Praia do Bom Abrigo": ""
+    "Jurerê": "img.praias/praia jurere.png",
+    "Jurerê Internacional": "img.praias/Jurerê Internacional.png",
+    "Canasvieiras": "img.praias/canasvieiras.png",
+    "Cachoeira do Bom Jesus": "img.praias/cachoeira.png",
+    "Ponta das Canas": "img.praias/Praia de Ponta das Canas.png",
+    "Lagoinha (do Norte)": "img.praias/Praia da Lagoinha do Norte .png",
+    "Praia Brava": "img.praias/Praia Brava.png",
+    "Praia dos Ingleses": "img.praias/Praia dos Ingleses.png",
+    "Praia do Santinho": "img.praias/Praia do Santinho.png",
+    "Praia do Forte": "img.praias/Praia do Forte.png",
+    "Praia da Daniela": "img.praias/Praia da Daniela.png",
+    "Sambaqui": "img.praias/Sambaqui.png",
+    "Santo Antônio de Lisboa": "img.praias/Santo Antônio de Lisboa.png",
+    "Cacupé": "img.praias/Cacupé.png",
+    "Barra da Lagoa": "img.praias/Barra da Lagoa.png",
+    "Prainha da Barra": "img.praias/Prainha da Barra.png",
+    "Praia Mole": "img.praias/Praia Mole.png",
+    "Praia da Galheta": "img.praias/Praia da Galheta.png",
+    "Praia da Joaquina": "img.praias/Praia da Joaquina.png",
+    "Praia do Gravatá": "img.praias/Praia do Gravatá.png",
+    "Praia do Moçambique": "img.praias/Praia do Moçambique.png",
+    "Praia da Armação": "img.praias/Praia da Armação.png",
+    "Praia do Matadeiro": "img.praias/Praia do Matadeiro.png",
+    "Praia do Morro das Pedras": "img.praias/Praia do Morro das Pedras.png",
+    "Praia do Pântano do Sul": "img.praias/Praia do Pântano do Sul.png",
+    "Praia dos Açores": "img.praias/Praia dos Açores.png",
+    "Praia da Solidão": "img.praias/Praia da Solidão.png",
+    "Praia do Saquinho": "img.praias/Praia do Saquinho.png",
+    "Praia da Lagoinha do Leste": "img.praias/Praia da Lagoinha do Leste.png",
+    "Praia de Naufragados": "img.praias/Praia de Naufragados.png",
+    "Ribeirão da Ilha": "img.praias/Ribeirão da Ilha.png",
+    "Tapera": "img.praias/Tapera.png",
+    "Praia de Itaguaçu": "img.praias/Praia de Itaguaçu.png",
+    "Praia das Palmeiras": "img.praias/Praia das Palmeiras.png",
+    "Praia da Saudade": "img.praias/Praia da Saudade.png",
+    "Praia do Meio": "img.praias/Praia do Meio.png",
+    "Praia do Bom Abrigo": "img.praias/Praia do Bom Abrigo.png"
 };
 
 function getPraiaImage(nome) {
