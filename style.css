@@ -575,8 +575,45 @@ body {
     transition: var(--transition);
 }
 
-.btn-fav:hover, .btn-fav.active {
+.btn-fav:hover {
     color: #faf9f9;
+}
+
+/* Active favorite: red heart */
+.btn-fav.active {
+    color: #ff4a5a !important;
+}
+.btn-fav.active i {
+    color: #ff4a5a !important;
+    text-shadow: 0 6px 20px rgba(255,74,90,0.15);
+}
+
+/* Tooltip for favorite buttons */
+.btn-fav { position: relative; }
+.btn-fav[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.85);
+    color: var(--white);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    opacity: 1;
+}
+.btn-fav[data-tooltip]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.85) transparent transparent transparent;
 }
 
 /* Filtros */
@@ -1571,6 +1608,18 @@ body {
 #gastronomia-grid .card-body .event-desc { color: rgba(255,255,255,0.8); }
 #gastronomia-grid .card-body .hotel-meta { display:flex; gap:12px; align-items:center; justify-content:space-between; }
 #gastronomia-grid .btn-fav { color: rgba(255,255,255,0.6); border:1px solid rgba(255,255,255,0.04); padding:8px 10px; border-radius:10px; }
+/* Visit button used for gastronomy links (distinct from fav button) */
+.btn-visit {
+    display:inline-block;
+    background: rgba(255,255,255,0.04);
+    color: var(--white);
+    padding: 8px 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: var(--transition);
+}
+.btn-visit:hover { background: rgba(255,255,255,0.08); color: var(--primary); }
 
 /* Gastro modal reuses event-modal styles but tweak sizes */
 .event-modal-window .modal-img { min-height: 260px; }
@@ -1578,4 +1627,29 @@ body {
 
 @media (max-width: 768px) {
     #gastronomia-grid .card-img-wrapper { height: 160px; }
+}
+/* Botão invisível, focado apenas no coração */
+.btn-favoritar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px; /* Tamanho do coração */
+  padding: 5px;
+  transition: transform 0.2s ease;
+}
+
+/* Efeito de clique */
+.btn-favoritar:active {
+  transform: scale(1.2);
+}
+
+/* Coração padrão (Branco / Vazio) */
+.btn-favoritar .coracao {
+  color: #ccc; /* Cor cinza clara ou branca para parecer vazio */
+}
+
+/* Quando o botão for clicado, ele ganha a classe 'favoritado' */
+.btn-favoritar.favoritado .coracao {
+  color: #ff5a5f; /* Vermelho vibrante */
+  content: '♥';   /* Opcional: Se quiser trocar o símbolo por um preenchido */
 }

@@ -335,6 +335,8 @@
                         <p class="tab-sub">Lista de desejos e locais que pretende visitar brevemente.</p>
                         <div class="grid" id="favorites-grid">
                             <!-- Injetado via JS -->
+                            <button class="btn-favoritar" onclick="toggleFavorito(this)">
+  <span class="coracao">&#9825;</span> </button>
                         </div>
                     </div>
 
@@ -453,7 +455,7 @@
                 </div>
                 <div style="margin-top:16px; display:flex; gap:10px;">
                     <a id="modal-gastro-site" class="btn-primary" href="#" target="_blank">Visitar Site</a>
-                    <button class="btn-fav" onclick="toggleFavorite(document.getElementById('modal-gastro-title').innerText)"><i class="far fa-heart"></i> Favoritar</button>
+                    <button id="modal-gastro-fav" class="btn-fav" data-item="" onclick="toggleFavorite(document.getElementById('modal-gastro-title').innerText)"><i class="far fa-heart"></i> Favoritar</button>
                 </div>
             </div>
         </div>
@@ -472,7 +474,7 @@
                 <p id="modal-event-local"></p>
                 <p id="modal-event-desc"></p>
                 <div class="modal-actions">
-                    <button class="btn-fav" onclick="toggleFavorite(document.getElementById('modal-event-title').innerText)"><i class="far fa-heart"></i> Favoritar</button>
+                    <button id="modal-event-fav" class="btn-fav" data-item="" onclick="toggleFavorite(document.getElementById('modal-event-title').innerText)"><i class="far fa-heart"></i> Favoritar</button>
                 </div>
             </div>
         </div>

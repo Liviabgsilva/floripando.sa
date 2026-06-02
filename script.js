@@ -390,7 +390,7 @@ function renderGrids() {
                         <h3>${d.nome}</h3>
                         <p>${d.desc}</p>
                         <div class="card-footer">
-                            <button class="btn-fav" onclick="toggleFavorite('${d.nome}')"><i class="far fa-heart"></i> Guardar</button>
+                            <button class="btn-fav" data-item="${d.nome}" data-tooltip="Guardar" onclick="toggleFavorite('${d.nome}')"><i class="far fa-heart"></i> Guardar</button>
                         </div>
                     </div>
                 </div>`;
@@ -422,7 +422,7 @@ function renderGrids() {
                         </div>
                         <div style="margin-top:14px; display:flex; gap:10px; align-items:center;">
                             <button class="btn-primary" onclick="showHotelDetails('${encodeURIComponent(h.nome)}')">Ver Detalhes</button>
-                            <button class="btn-fav" onclick="toggleFavorite('${h.nome.replace(/'/g, "\\'")}')"><i class="far fa-heart"></i></button>
+                            <button class="btn-fav" data-item="${h.nome}" data-tooltip="Guardar" onclick="toggleFavorite('${h.nome.replace(/'/g, "\\'")}')"><i class="far fa-heart"></i></button>
                         </div>
                     </div>
                 </div>`;
@@ -466,7 +466,7 @@ function filterPraias(regiao, btnElement = null) {
                     <div class="card-footer" style="display:flex; flex-direction:column; align-items:flex-start; gap:8px;">
                         <span><i class="fas fa-thermometer-half"></i> Temp Água: ${p.temp}</span>
                         <span><i class="fas fa-users"></i> Movimento: ${p.lotacao}</span>
-                        <button class="btn-fav" style="align-self: flex-end; margin-top: 10px;" onclick="toggleFavorite('${p.nome}')"><i class="far fa-heart"></i> Guardar</button>
+                        <button class="btn-fav" style="align-self: flex-end; margin-top: 10px;" data-item="${p.nome}" data-tooltip="Guardar" onclick="toggleFavorite('${p.nome}')"><i class="far fa-heart"></i> Guardar</button>
                     </div>
                 </div>
             </div>`;
@@ -498,7 +498,7 @@ function filterGastronomia(cat) {
                     <div class="card-footer" style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
                         <span><i class="fas fa-map-marker-alt"></i> ${g.local}</span>
                         <div style="display:flex; gap:8px; align-items:center;">
-                            <a class="btn-fav" href="${g.site || '#'}" target="_blank" title="Visitar site">Visitar</a>
+                            <a class="btn-visit" href="${g.site || '#'}" target="_blank" title="Visitar site">Visitar</a>
                             <button class="btn-primary" onclick="showGastroDetails('${encodeURIComponent(g.nome)}')">Ver Detalhes</button>
                         </div>
                     </div>
@@ -593,6 +593,9 @@ function startEventsAutoRefresh() {
         document.getElementById('modal-event-desc').innerText = ev.desc || '';
 
         document.getElementById('event-modal').classList.remove('hidden');
+        // set modal favorite button data-item (visual active handled only on click)
+        const me = document.getElementById('modal-event-fav');
+        if (me) me.setAttribute('data-item', ev.nome);
     }
 
     function closeEventModal() {
@@ -631,6 +634,12 @@ function startEventsAutoRefresh() {
         }
 
         document.getElementById('hotel-modal').classList.remove('hidden');
+        const mh = document.getElementById('modal-hotel-book');
+        // configure modal fav if exists
+        const mhf = document.getElementById('modal-hotel-book');
+        // hotel modal uses modal-hotel-book as CTA; fav button is not in hotel modal header
+        const favBtn = document.querySelector(`#hotel-modal .btn-fav`);
+        if (favBtn) favBtn.setAttribute('data-item', h.nome);
     }
 
     function closeHotelModal() {
@@ -654,6 +663,8 @@ function startEventsAutoRefresh() {
         document.getElementById('modal-gastro-site').href = g.site || '#';
 
         document.getElementById('gastro-modal').classList.remove('hidden');
+        const mg = document.getElementById('modal-gastro-fav');
+        if (mg) mg.setAttribute('data-item', g.nome);
     }
 
     function closeGastroModal() {
@@ -681,26 +692,123 @@ function toggleFavorite(itemName) {
 
     localStorage.setItem(`user_${currentUser.email}`, JSON.stringify(currentUser));
     localStorage.setItem('loggedUser', JSON.stringify(currentUser));
+    // visually update buttons that reference this item
+    const buttons = document.querySelectorAll(`[data-item]`);
+    const isFavNow = currentUser.favorites.includes(itemName);
+    buttons.forEach(b => {
+        if (b.getAttribute('data-item') === itemName) {
+            if (isFavNow) {
+                b.classList.add('active');
+                const ic = b.querySelector('i');
+                if (ic) { ic.classList.remove('far'); ic.classList.add('fas'); }
+                b.setAttribute('data-tooltip', 'Remover');
+            } else {
+                b.classList.remove('active');
+                const ic = b.querySelector('i');
+                if (ic) { ic.classList.remove('fas'); ic.classList.add('far'); }
+                b.setAttribute('data-tooltip', 'Guardar');
+            }
+        }
+    });
+
     updateUI();
 }
 
 function renderFavorites() {
     const favGrid = document.getElementById('favorites-grid');
     if (!favGrid) return;
-
     favGrid.innerHTML = '';
     if (!currentUser.favorites || currentUser.favorites.length === 0) {
         favGrid.innerHTML = '<p class="empty-state">Nenhum favorito guardado até ao momento.</p>';
         return;
     }
 
-    currentUser.favorites.forEach(fav => {
-        favGrid.innerHTML += `
-            <div class="fav-item glass" style="display:flex; justify-content:space-between; padding:20px; border-radius:15px; margin-bottom:15px;">
-                <span style="font-weight:700;">${fav}</span>
-                <button onclick="toggleFavorite('${fav}')" style="background:transparent; border:none; color:#ff4a5a; cursor:pointer;"><i class="fas fa-trash"></i> Remover</button>
-            </div>`;
+    // helper to safely escape single quotes for inline onclick handlers
+    function esc(s) {
+        return (s || '').replace(/'/g, "\\'");
+    }
+
+    // map favorites into categories
+    const groups = { praias: [], eventos: [], hospedagem: [], gastronomia: [], outros: [] };
+
+    currentUser.favorites.forEach(fname => {
+        const norm = simpleNormalize(fname);
+        let found = null;
+
+        found = DATA.praias && DATA.praias.find(p => simpleNormalize(p.nome) === norm);
+        if (found) { groups.praias.push(found); return; }
+
+        found = DATA.eventos && DATA.eventos.find(e => simpleNormalize(e.nome) === norm);
+        if (found) { groups.eventos.push(found); return; }
+
+        found = DATA.hospedagem && DATA.hospedagem.find(h => simpleNormalize(h.nome) === norm);
+        if (found) { groups.hospedagem.push(found); return; }
+
+        found = DATA.gastronomia && DATA.gastronomia.find(g => simpleNormalize(g.nome) === norm);
+        if (found) { groups.gastronomia.push(found); return; }
+
+        // fallback: unknown item, keep raw name
+        groups.outros.push({ nome: fname });
     });
+
+    // small renderer for a section
+    function renderSection(title, items, type) {
+        if (!items || items.length === 0) return '';
+        let html = `<div class="fav-section"><h3 style="margin-top:10px;">${title}</h3>`;
+        items.forEach(it => {
+            const name = it.nome || it.name || '';
+            const safeName = esc(name);
+            let thumb = '';
+            if (type === 'praias') {
+                const imgUrl = IMAGE_MAP && IMAGE_MAP[it.nome] ? IMAGE_MAP[it.nome] : getPraiaImage(it.nome);
+                thumb = `<img src="${imgUrl}" style="width:120px; height:80px; object-fit:cover; border-radius:8px; margin-right:12px;">`;
+            } else if (it.img) {
+                thumb = `<img src="${it.img}" style="width:120px; height:80px; object-fit:cover; border-radius:8px; margin-right:12px;">`;
+            } else {
+                thumb = `<div style="width:120px; height:80px; background:#222; border-radius:8px; margin-right:12px;"></div>`;
+            }
+
+            // detail button per type
+            let detailsBtn = '';
+            if (type === 'eventos') detailsBtn = `<button class="btn-primary" onclick="showEventDetails('${safeName}')">Ver Detalhes</button>`;
+            else if (type === 'hospedagem') detailsBtn = `<button class="btn-primary" onclick="showHotelDetails('${encodeURIComponent(name)}')">Ver Detalhes</button>`;
+            else if (type === 'gastronomia') detailsBtn = `<button class="btn-primary" onclick="showGastroDetails('${encodeURIComponent(name)}')">Ver Detalhes</button>`;
+
+            // meta info
+            let meta = '';
+            if (type === 'praias') meta = `<div style="font-size:0.9rem;color:#aaa;">${it.regiao || ''} • ${it.temp || ''} • ${it.lotacao || ''}</div>`;
+            else if (type === 'eventos') meta = `<div style="font-size:0.9rem;color:#aaa;">${it.local || ''} • ${it.data || ''}</div>`;
+            else if (type === 'hospedagem') meta = `<div style="font-size:0.9rem;color:#aaa;">${it.local || ''} • ${it.preco || ''}</div>`;
+            else if (type === 'gastronomia') meta = `<div style="font-size:0.9rem;color:#aaa;">${it.local || ''} • ${it.preco || ''}</div>`;
+
+            html += `
+                <div class="fav-item glass" style="display:flex; align-items:center; justify-content:space-between; padding:12px; border-radius:12px; margin-bottom:10px; gap:12px;">
+                    <div style="display:flex; align-items:center; gap:12px; flex:1;">
+                        ${thumb}
+                        <div style="flex:1;">
+                            <div style="font-weight:700;">${name}</div>
+                            ${meta}
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        ${detailsBtn}
+                        <button class="btn-fav active" data-item="${name}" data-tooltip="Remover" onclick="toggleFavorite('${safeName}')"><i class="fas fa-heart"></i></button>
+                    </div>
+                </div>`;
+        });
+        html += `</div>`;
+        return html;
+    }
+
+    // build HTML for each category in the desired order
+    let out = '';
+    out += renderSection('Praias', groups.praias, 'praias');
+    out += renderSection('Eventos', groups.eventos, 'eventos');
+    out += renderSection('Hospedagem', groups.hospedagem, 'hospedagem');
+    out += renderSection('Gastronomia', groups.gastronomia, 'gastronomia');
+    if (groups.outros.length) out += renderSection('Outros', groups.outros, 'outros');
+
+    favGrid.innerHTML = out;
 }
 
 // --- HISTÓRICO DE VIAGENS ---
@@ -953,3 +1061,15 @@ function applyImageAssignments() {
     }
 }
 // CORREÇÃO: Removida a chave extra que estava fechando o arquivo incorretamente aqui.
+function toggleFavorito(botao) {
+  // O toggle adiciona a classe se ela não existir, e remove se já existir
+  botao.classList.toggle('favoritado');
+  
+  // Opcional: Trocar o símbolo de vazio para cheio dinamicamente
+  const coracao = botao.querySelector('.coracao');
+  if (botao.classList.contains('favoritado')) {
+    coracao.innerHTML = '&#9829;'; // Coração totalmente preenchido (♥)
+  } else {
+    coracao.innerHTML = '&#9825;'; // Coração vazado (♡)
+  }
+}
