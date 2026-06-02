@@ -159,7 +159,7 @@
                 </header>
                                 <!-- Menu de Reservas Externo -->
                                 <div class="menu-reserva-container">
-                                    <span class="menu-titulo">Reserve Agora:</span>
+                                    <span class="menu-titulo">Procure agora a sua Hospedagem:</span>
                                     <div class="botoes-reserva">
                                         <a href="https://www.booking.com" target="_blank" class="btn-reserva booking">Booking.com</a>
                                         <a href="https://www.hoteis.com" target="_blank" class="btn-reserva hoteis">Hotéis.com</a>
@@ -412,6 +412,29 @@
         </div>
     </footer>
     <!-- Modal de Detalhes do Evento -->
+    <!-- Modal de Detalhes do Hotel -->
+    <div id="hotel-modal" class="hotel-modal hidden">
+        <div class="hotel-modal-backdrop" onclick="closeHotelModal()"></div>
+        <div class="hotel-modal-window glass">
+            <button class="modal-close" onclick="closeHotelModal()">&times;</button>
+            <div class="modal-img">
+                <img id="modal-hotel-img" src="" alt="Hotel">
+            </div>
+            <div class="modal-content">
+                <h2 id="modal-hotel-title"></h2>
+                <p id="modal-hotel-local" class="hotel-local"></p>
+                <p id="modal-hotel-desc"></p>
+                <div class="hotel-meta">
+                    <div class="hotel-rating" id="modal-hotel-rating"></div>
+                    <div class="hotel-price" id="modal-hotel-price"></div>
+                </div>
+                <div class="modal-actions" style="margin-top:18px; display:flex; flex-direction:column; gap:8px;">
+                    <a id="modal-hotel-book" class="btn-primary" href="#" target="_blank">Reservar</a>
+                    <a id="modal-hotel-site" href="#" target="_blank" style="color:var(--primary); font-weight:700; text-decoration:underline;">Visitar site do hotel</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="event-modal" class="event-modal hidden">
         <div class="event-modal-backdrop" onclick="closeEventModal()"></div>
         <div class="event-modal-window glass">

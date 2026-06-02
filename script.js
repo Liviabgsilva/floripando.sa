@@ -398,16 +398,25 @@ function renderGrids() {
     if (hospGrid) {
         hospGrid.innerHTML = '';
         DATA.hospedagem.forEach(h => {
+            // ensure safe attributes
+            const safeName = h.nome.replace(/"/g, '&quot;');
             hospGrid.innerHTML += `
                 <div class="card">
                     <div class="card-img-wrapper">
-                        <img src="${h.img}" alt="${h.nome}">
+                        <img src="${h.img}" alt="${safeName}">
                         <span class="badge-tag">${h.local}</span>
                     </div>
                     <div class="card-body">
                         <h3>${h.nome}</h3>
                         <p>${h.desc}</p>
-                        <p style="margin-top: 10px; font-weight: 700; color: var(--primary);">${h.preco}</p>
+                        <div class="hotel-meta">
+                            <div class="hotel-rating">${'★'.repeat(Math.max(0, Math.min(5, h.rating || 0)))}</div>
+                            <div class="hotel-price">${h.preco}</div>
+                        </div>
+                        <div style="margin-top:14px; display:flex; gap:10px; align-items:center;">
+                            <button class="btn-primary" onclick="showHotelDetails('${encodeURIComponent(h.nome)}')">Ver Detalhes</button>
+                            <button class="btn-fav" onclick="toggleFavorite('${h.nome.replace(/'/g, "\\'")}')"><i class="far fa-heart"></i></button>
+                        </div>
                     </div>
                 </div>`;
         });
@@ -574,6 +583,45 @@ function startEventsAutoRefresh() {
     function closeEventModal() {
         document.getElementById('event-modal').classList.add('hidden');
         document.getElementById('modal-event-img').src = '';
+    }
+
+    // Hotel modal handlers
+    function showHotelDetails(encodedName) {
+        const name = decodeURIComponent(encodedName);
+        const h = DATA.hospedagem.find(x => x.nome === name);
+        if (!h) return alert('Hospedagem não encontrada.');
+
+        document.getElementById('modal-hotel-img').src = h.img || '';
+        document.getElementById('modal-hotel-title').innerText = h.nome;
+        document.getElementById('modal-hotel-local').innerText = h.local || '';
+        document.getElementById('modal-hotel-desc').innerText = h.desc || '';
+        document.getElementById('modal-hotel-rating').innerText = '★'.repeat(Math.max(0, Math.min(5, h.rating || 0)));
+        document.getElementById('modal-hotel-price').innerText = h.preco || '';
+        // prefer a booking link if present, otherwise fallback to external search
+        const bookingLink = h.booking || `https://www.booking.com/searchresults.html?ss=${encodeURIComponent(h.nome + ' ' + h.local)}`;
+        // primary CTA: reservar (can be a partner link)
+        document.getElementById('modal-hotel-book').href = bookingLink;
+
+        // site do hotel: se houver campo `site` use-o; senão usar bookingLink
+        const siteLink = h.site || bookingLink;
+        const siteEl = document.getElementById('modal-hotel-site');
+        if (siteEl) {
+            siteEl.href = siteLink;
+            try {
+                const u = new URL(siteLink);
+                siteEl.innerText = `Visitar site: ${u.hostname.replace('www.', '')}`;
+            } catch (err) {
+                siteEl.innerText = 'Visitar site do hotel';
+            }
+        }
+
+        document.getElementById('hotel-modal').classList.remove('hidden');
+    }
+
+    function closeHotelModal() {
+        document.getElementById('hotel-modal').classList.add('hidden');
+        const img = document.getElementById('modal-hotel-img');
+        if (img) img.src = '';
     }
 
 // --- SISTEMA DE FAVORITOS ---
