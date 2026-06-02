@@ -157,6 +157,18 @@
                     <h2 class="title">Hospedagens Exclusivas</h2>
                     <p class="section-desc">Hotéis, Boutique, Resorts Ecológicos e villas Luxuosas de frente para o mar.</p>
                 </header>
+                                <!-- Menu de Reservas Externo -->
+                                <div class="menu-reserva-container">
+                                    <span class="menu-titulo">Reserve Agora:</span>
+                                    <div class="botoes-reserva">
+                                        <a href="https://www.booking.com" target="_blank" class="btn-reserva booking">Booking.com</a>
+                                        <a href="https://www.hoteis.com" target="_blank" class="btn-reserva hoteis">Hotéis.com</a>
+                                        <a href="https://www.tripadvisor.com.br" target="_blank" class="btn-reserva tripadvisor">TripAdvisor</a>
+                                        <a href="https://www.airbnb.com.br" target="_blank" class="btn-reserva airbnb">Airbnb</a>
+                                    </div>
+                                </div>
+
+                                
                 <div class="grid" id="hospedagem-grid">
                     <!-- Gerado Dinamicamente via JS -->
                 </div>
@@ -273,9 +285,9 @@
                     </div>
 
                     <div class="profile-nav-menu">
-                        <button class="tab-btn active" onclick="switchProfileTab('dados')"><i class="fas fa-id-card"></i> Meus Dados</button>
-                        <button class="tab-btn" onclick="switchProfileTab('favoritos')"><i class="fas fa-heart"></i> Favoritos</button>
-                        <button class="tab-btn" onclick="switchProfileTab('viagens')"><i class="fas fa-plane"></i> Histórico de Viagens</button>
+                        <button class="tab-btn active" onclick="switchProfileTab('dados', event)"><i class="fas fa-id-card"></i> Meus Dados</button>
+                        <button class="tab-btn" onclick="switchProfileTab('favoritos', event)"><i class="fas fa-heart"></i> Favoritos</button>
+                        <button class="tab-btn" onclick="switchProfileTab('viagens', event)"><i class="fas fa-plane"></i> Histórico de Viagens</button>
                         <button class="tab-btn btn-logout" onclick="authAction('logout')"><i class="fas fa-sign-out-alt"></i> Encerrar Sessão</button>
                     </div>
                 </aside>
@@ -399,6 +411,25 @@
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3531.7526449820817!2d-48.5521!3d-27.5973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95193c2e2e2e2e2f%3A0x0!2sFlorianópolis%2C%20Santa%20Catarina!5e0!3m2!1spt-BR!2sbr!4v1716014000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de Florianópolis"></iframe>
         </div>
     </footer>
+    <!-- Modal de Detalhes do Evento -->
+    <div id="event-modal" class="event-modal hidden">
+        <div class="event-modal-backdrop" onclick="closeEventModal()"></div>
+        <div class="event-modal-window glass">
+            <button class="modal-close" onclick="closeEventModal()">&times;</button>
+            <div class="modal-img">
+                <img id="modal-event-img" src="" alt="Evento">
+            </div>
+            <div class="modal-content">
+                <h2 id="modal-event-title"></h2>
+                <p id="modal-event-date"></p>
+                <p id="modal-event-local"></p>
+                <p id="modal-event-desc"></p>
+                <div class="modal-actions">
+                    <button class="btn-fav" onclick="toggleFavorite(document.getElementById('modal-event-title').innerText)"><i class="far fa-heart"></i> Favoritar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <script src="script.js"></script>
 </body>
 </html>

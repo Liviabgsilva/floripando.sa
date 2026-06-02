@@ -59,6 +59,7 @@ body {
     transition: opacity 0.8s ease;
 }
 
+
 .loader-content {
     text-align: center;
 }
@@ -441,6 +442,114 @@ body {
     font-size: 1.45rem;
     margin-bottom: 12px;
 }
+
+/* Eventos - cartão profissional */
+.event-card .card-img-wrapper {
+    height: 200px;
+}
+
+.event-card .card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-date-badge {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    background: var(--primary);
+    color: var(--dark);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    box-shadow: 0 6px 20px rgba(0, 160, 200, 0.2);
+}
+
+.event-desc {
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 16px;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--dark);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,160,200,0.2);
+}
+
+/* Modal de Evento */
+.event-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20000;
+}
+
+.event-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+}
+
+.event-modal-window {
+    position: relative;
+    max-width: 1000px;
+    width: 95%;
+    margin: 20px;
+    border-radius: 16px;
+    overflow: hidden;
+    z-index: 20010;
+    display: flex;
+    gap: 20px;
+}
+
+.event-modal-window .modal-img {
+    flex: 1 1 45%;
+    min-height: 320px;
+    overflow: hidden;
+}
+
+.event-modal-window .modal-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-modal-window .modal-content {
+    flex: 1 1 55%;
+    padding: 28px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    color: var(--white);
+    cursor: pointer;
+    z-index: 20100;
+}
+
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+}
+
+.event-modal.hidden { display: none !important; }
 
 .card-body p {
     color: rgba(255, 255, 255, 0.6);
