@@ -435,6 +435,30 @@
             </div>
         </div>
     </div>
+    <!-- Modal de Detalhes da Gastronomia -->
+    <div id="gastro-modal" class="event-modal hidden">
+        <div class="event-modal-backdrop" onclick="closeGastroModal()"></div>
+        <div class="event-modal-window glass">
+            <button class="modal-close" onclick="closeGastroModal()">&times;</button>
+            <div class="modal-img">
+                <img id="modal-gastro-img" src="" alt="Gastronomia">
+            </div>
+            <div class="modal-content">
+                <h2 id="modal-gastro-title"></h2>
+                <p id="modal-gastro-local"></p>
+                <p id="modal-gastro-desc"></p>
+                <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                    <div id="modal-gastro-price" class="hotel-price"></div>
+                    <div id="modal-gastro-rating" class="hotel-rating"></div>
+                </div>
+                <div style="margin-top:16px; display:flex; gap:10px;">
+                    <a id="modal-gastro-site" class="btn-primary" href="#" target="_blank">Visitar Site</a>
+                    <button class="btn-fav" onclick="toggleFavorite(document.getElementById('modal-gastro-title').innerText)"><i class="far fa-heart"></i> Favoritar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="event-modal" class="event-modal hidden">
         <div class="event-modal-backdrop" onclick="closeEventModal()"></div>
         <div class="event-modal-window glass">

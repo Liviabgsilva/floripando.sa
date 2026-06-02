@@ -1564,3 +1564,18 @@ body {
     .hotel-modal-window { flex-direction: column; }
     .hotel-modal-window .modal-content { border-radius: 0 0 12px 12px; }
 }
+
+/* ================= GASTRONOMIA ================= */
+#gastronomia-grid .card-img-wrapper { height: 200px; }
+#gastronomia-grid .card-body h3 { font-size: 1.15rem; }
+#gastronomia-grid .card-body .event-desc { color: rgba(255,255,255,0.8); }
+#gastronomia-grid .card-body .hotel-meta { display:flex; gap:12px; align-items:center; justify-content:space-between; }
+#gastronomia-grid .btn-fav { color: rgba(255,255,255,0.6); border:1px solid rgba(255,255,255,0.04); padding:8px 10px; border-radius:10px; }
+
+/* Gastro modal reuses event-modal styles but tweak sizes */
+.event-modal-window .modal-img { min-height: 260px; }
+.event-modal-window .modal-content { padding: 22px; }
+
+@media (max-width: 768px) {
+    #gastronomia-grid .card-img-wrapper { height: 160px; }
+}

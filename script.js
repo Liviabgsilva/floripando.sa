@@ -257,10 +257,17 @@ hospedagem: [
         { nome: "Blue Tree Premium Florianópolis", local: "Centro, Florianópolis", preco: "R$ 580 / noite", rating: 4, desc: "Quartos amplos com serviços executivos, piscina no terraço e ao lado do Beiramar Shopping.", img: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/312823335.jpg?k=4caf5656af89b7d21ac5e46d57e33ea862fa0a5195413e9011a24cbc69d947e2&o=" }
     ],
 
-    gastronomia: [
-        { nome: "Ostradamus", cat: "frutos-do-mar", local: "Ribeirão da Ilha", desc: "Ostras vivas depuradas e o melhor polvo grelhado num trapiche histórico.", preco: "R$ 180 - R$ 350", img: "" },
-        { nome: "Artusi Ristorante", cat: "italiana", local: "Centro", desc: "Alta culinária italiana com toques inovadores pelo chef de prestígio.", preco: "R$ 150 - R$ 280", img: "" },
-        { nome: "Jay Bistrô", cat: "contemporanea", local: "Jurerê", desc: "Menu de autor sofisticado e harmonizações com grandes rótulos mundiais.", preco: "R$ 220 - R$ 450", img: "" }
+   gastronomia: [
+        { nome: "Ostradamus", cat: "frutos-do-mar", local: "Ribeirão da Ilha, Florianópolis", desc: "Casa icônica de ostras e frutos do mar, com trapiche sobre a água e decoração náutica deslumbrante.", preco: "R$ 120 - R$ 320", img: "https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=800&auto=format&fit=crop", site: "https://www.ostradamus.com.br", rating: 5 },
+        { nome: "Artusi Ristorante", cat: "italiana", local: "Centro, Florianópolis", desc: "Alta gastronomia italiana assinada pelo chef Alysson Müller, famoso por seus nhoques e massas artesanais.", preco: "R$ 140 - R$ 300", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=800&auto=format&fit=crop", site: "https://www.instagram.com/artusiristorante", rating: 5 },
+        { nome: "Jay Bistrô", cat: "contemporanea", local: "Jurerê Internacional, Florianópolis", desc: "Menu de autor contemporâneo sofisticado com técnicas internacionais aplicadas a peixes e carnes nobres.", preco: "R$ 180 - R$ 420", img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800&auto=format&fit=crop", site: "https://www.instagram.com/jaybistro", rating: 5 },
+        { nome: "Restaurante Rancho Açoriano", cat: "frutos-do-mar", local: "Santo Antônio de Lisboa, Florianópolis", desc: "Tradição açoriana legítima à beira-mar, com cultivo próprio de mariscos e a famosa tainha recheada.", preco: "R$ 80 - R$ 220", img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800&auto=format&fit=crop", site: "https://www.ranchoacoriano.com.br", rating: 5 },
+        { nome: "Rosso Restro", cat: "frutos-do-mar", local: "Santo Antônio de Lisboa, Florianópolis", desc: "Especializado na culinária manezinha premium, famoso pelo polvo grelhado considerado um dos melhores do país.", preco: "R$ 130 - R$ 290", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=800&auto=format&fit=crop", site: "https://www.instagram.com/rossorestro", rating: 5 },
+        { nome: "Pescador Eco Gastronomia", cat: "frutos-do-mar", local: "Campeche, Florianópolis", desc: "Gastronomia caiçara com ingredientes frescos e orgânicos, em um ambiente rústico e integrado à natureza.", preco: "R$ 90 - R$ 190", img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=800&auto=format&fit=crop", site: "https://www.instagram.com/pescadorecogastronomia", rating: 4 },
+        { nome: "Amalfi Resto Bar", cat: "contemporanea", local: "Santo Antônio de Lisboa, Florianópolis", desc: "Alta gastronomia inspirada na Costa Amalfitana com toques da ilha, perfeito para um jantar ao pôr do sol.", preco: "R$ 110 - R$ 260", img: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=800&auto=format&fit=crop", site: "https://www.instagram.com/amalfiresobar", rating: 4 },
+        { nome: "Forneria San Lazzaro", cat: "italiana", local: "Centro, Florianópolis", desc: "Pizzas artesanais de fermentação natural no estilo napolitano e entradas italianas sofisticadas.", preco: "R$ 60 - R$ 130", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=800&auto=format&fit=crop", site: "https://linktr.net/forneriasanlazzaro", rating: 4 },
+        { nome: "Mar Massas", cat: "italiana", local: "Lagoa da Conceição, Florianópolis", desc: "Restaurante tradicional no topo do morro com vista incrível da Lagoa, massas artesanais e frutos do mar.", preco: "R$ 95 - R$ 210", img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=800&auto=format&fit=crop", site: "https://www.instagram.com/marmassas", rating: 4 },
+        { nome: "Muamba Bar", cat: "asiatica", local: "Lagoa da Conceição, Florianópolis", desc: "Gastronomia asiática contemporânea e coquetelaria autoral de alta qualidade em ambiente super descontraído.", preco: "R$ 50 - R$ 120", img: "https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=800&auto=format&fit=crop", site: "https://www.instagram.com/muamba.bar", rating: 4 }
     ],
     eventos: [
         { nome: "Festival Gastronômico Floripando", data: "2026-06-15", local: "Praça Central, Canasvieiras, Florianópolis", desc: "Mais de 40 chefs locais e internacionais, street food premium e experiências sensoriais no coração de Canasvieiras.", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=1400&auto=format&fit=crop" },
@@ -470,22 +477,30 @@ function filterPraias(regiao, btnElement = null) {
 function filterGastronomia(cat) {
     const gastroGrid = document.getElementById('gastronomia-grid');
     if (!gastroGrid) return;
-
     gastroGrid.innerHTML = '';
     const filtered = cat === 'todos' ? DATA.gastronomia : DATA.gastronomia.filter(g => g.cat === cat);
 
     filtered.forEach(g => {
+        const safeName = g.nome.replace(/"/g, '&quot;');
         gastroGrid.innerHTML += `
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="${g.img}" alt="${g.nome}">
-                    <span class="badge-tag">${g.preco}</span>
+                    <img src="${g.img}" alt="${safeName}" loading="lazy">
+                    <span class="badge-tag">${g.cat}</span>
                 </div>
                 <div class="card-body">
                     <h3>${g.nome}</h3>
-                    <p>${g.desc}</p>
-                    <div class="card-footer">
+                    <p class="event-desc">${g.desc}</p>
+                    <div class="hotel-meta" style="margin-top:12px;">
+                        <div class="hotel-price">${g.preco}</div>
+                        <div class="hotel-rating">${'★'.repeat(Math.max(0, Math.min(5, g.rating || 0)))}</div>
+                    </div>
+                    <div class="card-footer" style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
                         <span><i class="fas fa-map-marker-alt"></i> ${g.local}</span>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <a class="btn-fav" href="${g.site || '#'}" target="_blank" title="Visitar site">Visitar</a>
+                            <button class="btn-primary" onclick="showGastroDetails('${encodeURIComponent(g.nome)}')">Ver Detalhes</button>
+                        </div>
                     </div>
                 </div>
             </div>`;
@@ -621,6 +636,29 @@ function startEventsAutoRefresh() {
     function closeHotelModal() {
         document.getElementById('hotel-modal').classList.add('hidden');
         const img = document.getElementById('modal-hotel-img');
+        if (img) img.src = '';
+    }
+
+    // Gastronomia modal handlers
+    function showGastroDetails(encodedName) {
+        const name = decodeURIComponent(encodedName);
+        const g = DATA.gastronomia.find(x => x.nome === name);
+        if (!g) return alert('Restaurante não encontrado.');
+
+        document.getElementById('modal-gastro-img').src = g.img || '';
+        document.getElementById('modal-gastro-title').innerText = g.nome;
+        document.getElementById('modal-gastro-local').innerText = g.local || '';
+        document.getElementById('modal-gastro-desc').innerText = g.desc || '';
+        document.getElementById('modal-gastro-price').innerText = g.preco || '';
+        document.getElementById('modal-gastro-rating').innerText = '★'.repeat(Math.max(0, Math.min(5, g.rating || 0)));
+        document.getElementById('modal-gastro-site').href = g.site || '#';
+
+        document.getElementById('gastro-modal').classList.remove('hidden');
+    }
+
+    function closeGastroModal() {
+        document.getElementById('gastro-modal').classList.add('hidden');
+        const img = document.getElementById('modal-gastro-img');
         if (img) img.src = '';
     }
 
