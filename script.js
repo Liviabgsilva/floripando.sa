@@ -253,7 +253,7 @@ hospedagem: [
         { nome: "Pousada Recanto dos Bambus", local: "Campeche, Florianópolis", preco: "R$ 480 / noite", rating: 4, desc: "Suítes confortáveis em meio à natureza do Campeche, ambiente tranquilo e fácil acesso ao mar.", img: "https://recanto-dos-bambus-pousada.hotelflorianopolis.com/data/Images/OriginalPhoto/15387/1538732/1538732422/image-florianopolis-recanto-dos-bambus-pousada-21.JPEG" },
         { nome: "Pousada Quinta da Bica d'Água", local: "Carvoeira, Florianópolis", preco: "R$ 520 / noite", rating: 4, desc: "Charme cercado por jardins tropicais nativos, quartos elegantes e excelente pequeno-almoço regional.", img: "https://lh6.googleusercontent.com/proxy/tX4kJdjaVQmvRhK-Osb5HmscNUauKX4JDjhpFgdIyi2I-oWRqk1Evt70y7nLxNBASotiUK-mi0DLtjPmDYNj0dsHstTfFlNrIr0M7pD1WREdkzd0-Zc5DzwjyqmUhc44Iz1hn0Og" },
         { nome: "Hotel Novotel Florianópolis", local: "Centro, Florianópolis", preco: "R$ 690 / noite", rating: 4, desc: "Conforto moderno na Avenida Beira-Mar Norte, com piscina infinita, academia e vista deslumbrante para a baía.", img: "https://www.ahstatic.com/photos/5947_ho_00_p_1024x768.jpg" },
-        { nome: "Selina Floripa", local: "Mole / Lagoa da Conceição, Florianópolis", preco: "R$ 310 / noite", rating: 3, desc: "Alojamento focado em comunidade e ecoturismo, ideal para nômades digitais e quem procura contato com a natureza.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlXMch2fbnQybU8r10W6NOmq_gIeCf5nbCVQ&s" },
+    { nome: "Selina Floripa", local: "Mole / Lagoa da Conceição, Florianópolis", preco: "R$ 310 / noite", rating: 3, desc: "Alojamento focado em comunidade e ecoturismo, ideal para nômades digitais e quem procura contato com a natureza.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlXMch2fbnQybU8r10W6NOmq_gIeCf5nbCVQ&s" },
         { nome: "Blue Tree Premium Florianópolis", local: "Centro, Florianópolis", preco: "R$ 580 / noite", rating: 4, desc: "Quartos amplos com serviços executivos, piscina no terraço e ao lado do Beiramar Shopping.", img: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/312823335.jpg?k=4caf5656af89b7d21ac5e46d57e33ea862fa0a5195413e9011a24cbc69d947e2&o=" }
     ],
 
@@ -1010,7 +1010,7 @@ function switchProfileTab(tabName, ev) {
     }
 }
 
-// Enviar formulário de contacto
+// Enviar formulário de contato
 function handleContactSubmit(event) {
     event.preventDefault();
     const name = document.getElementById('contact-name').value;
