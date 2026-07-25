@@ -44,7 +44,7 @@
                 <li><a href="javascript:void(0)" onclick="showView('eventos')">Eventos</a></li>
                 <li><a href="javascript:void(0)" onclick="showView('hospedagem')">Hospedagem</a></li>
                 <li><a href="javascript:void(0)" onclick="showView('gastronomia')">Gastronomia</a></li>
-                <li><a href="javascript:void(0)" onclick="showView('contato')">Contacto</a></li>
+                <li><a href="javascript:void(0)" onclick="showView('contato')">Contato</a></li>
             </ul>
 
             <div class="nav-actions">
@@ -74,7 +74,7 @@
             <li><a href="javascript:void(0)" onclick="showView('eventos'); toggleMobileMenu()">Eventos</a></li>
             <li><a href="javascript:void(0)" onclick="showView('hospedagem'); toggleMobileMenu()">Hospedagem</a></li>
             <li><a href="javascript:void(0)" onclick="showView('gastronomia'); toggleMobileMenu()">Gastronomia</a></li>
-            <li><a href="javascript:void(0)" onclick="showView('contato'); toggleMobileMenu()">Contacto</a></li>
+            <li><a href="javascript:void(0)" onclick="showView('contato'); toggleMobileMenu()">Contato</a></li>
         </ul>
     </div>
 
@@ -157,6 +157,18 @@
                     <h2 class="title">Hospedagens Exclusivas</h2>
                     <p class="section-desc">Hotéis, Boutique, Resorts Ecológicos e villas Luxuosas de frente para o mar.</p>
                 </header>
+                                <!-- Menu de Reservas Externo -->
+                                <div class="menu-reserva-container">
+                                    <span class="menu-titulo">Procure agora a sua Hospedagem:</span>
+                                    <div class="botoes-reserva">
+                                        <a href="https://www.booking.com" target="_blank" class="btn-reserva booking">Booking.com</a>
+                                        <a href="https://www.hoteis.com" target="_blank" class="btn-reserva hoteis">Hotéis.com</a>
+                                        <a href="https://www.tripadvisor.com.br" target="_blank" class="btn-reserva tripadvisor">TripAdvisor</a>
+                                        <a href="https://www.airbnb.com.br" target="_blank" class="btn-reserva airbnb">Airbnb</a>
+                                    </div>
+                                </div>
+
+                                
                 <div class="grid" id="hospedagem-grid">
                     <!-- Gerado Dinamicamente via JS -->
                 </div>
@@ -183,11 +195,11 @@
             </div>
         </section>
 
-        <!-- PÁGINA DE CONTACTO -->
+    <!-- PÁGINA DE CONTATO -->
         <section id="view-contato" class="view section-padding flex-center">
             <div class="contact-card glass">
                 <div class="contact-info">
-                    <h2>Entre em Contacto</h2>
+                        <h2>Entre em Contato</h2>
                     <p class="contact-sub">Estamos prontos para fazer a sua viagem se tornar realidade.</p>
                     <div class="contact-item">
                         <i class="fas fa-phone-alt"></i>
@@ -200,7 +212,7 @@
                 </div>
                 <form class="contact-form" onsubmit="handleContactSubmit(event)">
                     <input type="text" id="contact-name" placeholder="Nome Completo" required>
-                    <input type="email" id="contact-email" placeholder="E-mail de Contacto" required>
+                    <input type="email" id="contact-email" placeholder="E-mail de Contato" required>
                     <textarea id="contact-message" placeholder="Como o podemos ajudar a planear?" rows="5" required></textarea>
                     <button type="submit" class="btn-submit">Enviar Pedido</button>
                 </form>
@@ -273,9 +285,9 @@
                     </div>
 
                     <div class="profile-nav-menu">
-                        <button class="tab-btn active" onclick="switchProfileTab('dados')"><i class="fas fa-id-card"></i> Meus Dados</button>
-                        <button class="tab-btn" onclick="switchProfileTab('favoritos')"><i class="fas fa-heart"></i> Favoritos</button>
-                        <button class="tab-btn" onclick="switchProfileTab('viagens')"><i class="fas fa-plane"></i> Histórico de Viagens</button>
+                        <button class="tab-btn active" onclick="switchProfileTab('dados', event)"><i class="fas fa-id-card"></i> Meus Dados</button>
+                        <button class="tab-btn" onclick="switchProfileTab('favoritos', event)"><i class="fas fa-heart"></i> Favoritos</button>
+                        <button class="tab-btn" onclick="switchProfileTab('viagens', event)"><i class="fas fa-plane"></i> Histórico de Viagens</button>
                         <button class="tab-btn btn-logout" onclick="authAction('logout')"><i class="fas fa-sign-out-alt"></i> Encerrar Sessão</button>
                     </div>
                 </aside>
@@ -284,7 +296,7 @@
                     <!-- Aba: Dados -->
                     <div id="tab-dados" class="tab-content active">
                         <h2>Dados Pessoais</h2>
-                        <p class="tab-sub">Atualize as suas informações de contacto e preferências de viagem.</p>
+                        <p class="tab-sub">Atualize as suas informações de contato e preferências de viagem.</p>
                         <div class="profile-form">
                             <div class="form-row">
                                 <div class="form-group">
@@ -323,6 +335,8 @@
                         <p class="tab-sub">Lista de desejos e locais que pretende visitar brevemente.</p>
                         <div class="grid" id="favorites-grid">
                             <!-- Injetado via JS -->
+                            <button class="btn-favoritar" onclick="toggleFavorito(this)">
+  <span class="coracao">&#9825;</span> </button>
                         </div>
                     </div>
 
@@ -399,6 +413,72 @@
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3531.7526449820817!2d-48.5521!3d-27.5973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95193c2e2e2e2e2f%3A0x0!2sFlorianópolis%2C%20Santa%20Catarina!5e0!3m2!1spt-BR!2sbr!4v1716014000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de Florianópolis"></iframe>
         </div>
     </footer>
+    <!-- Modal de Detalhes do Evento -->
+    <!-- Modal de Detalhes do Hotel -->
+    <div id="hotel-modal" class="hotel-modal hidden">
+        <div class="hotel-modal-backdrop" onclick="closeHotelModal()"></div>
+        <div class="hotel-modal-window glass">
+            <button class="modal-close" onclick="closeHotelModal()">&times;</button>
+            <div class="modal-img">
+                <img id="modal-hotel-img" src="" alt="Hotel">
+            </div>
+            <div class="modal-content">
+                <h2 id="modal-hotel-title"></h2>
+                <p id="modal-hotel-local" class="hotel-local"></p>
+                <p id="modal-hotel-desc"></p>
+                <div class="hotel-meta">
+                    <div class="hotel-rating" id="modal-hotel-rating"></div>
+                    <div class="hotel-price" id="modal-hotel-price"></div>
+                </div>
+                <div class="modal-actions" style="margin-top:18px; display:flex; flex-direction:column; gap:8px;">
+                    <a id="modal-hotel-book" class="btn-primary" href="#" target="_blank">Reservar</a>
+                    <a id="modal-hotel-site" href="#" target="_blank" style="color:var(--primary); font-weight:700; text-decoration:underline;">Visitar site do hotel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de Detalhes da Gastronomia -->
+    <div id="gastro-modal" class="event-modal hidden">
+        <div class="event-modal-backdrop" onclick="closeGastroModal()"></div>
+        <div class="event-modal-window glass">
+            <button class="modal-close" onclick="closeGastroModal()">&times;</button>
+            <div class="modal-img">
+                <img id="modal-gastro-img" src="" alt="Gastronomia">
+            </div>
+            <div class="modal-content">
+                <h2 id="modal-gastro-title"></h2>
+                <p id="modal-gastro-local"></p>
+                <p id="modal-gastro-desc"></p>
+                <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                    <div id="modal-gastro-price" class="hotel-price"></div>
+                    <div id="modal-gastro-rating" class="hotel-rating"></div>
+                </div>
+                <div style="margin-top:16px; display:flex; gap:10px;">
+                    <a id="modal-gastro-site" class="btn-primary" href="#" target="_blank">Visitar Site</a>
+                    <button id="modal-gastro-fav" class="btn-fav" data-item="" onclick="toggleFavorite(document.getElementById('modal-gastro-title').innerText)"><i class="far fa-heart"></i> Favoritar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="event-modal" class="event-modal hidden">
+        <div class="event-modal-backdrop" onclick="closeEventModal()"></div>
+        <div class="event-modal-window glass">
+            <button class="modal-close" onclick="closeEventModal()">&times;</button>
+            <div class="modal-img">
+                <img id="modal-event-img" src="" alt="Evento">
+            </div>
+            <div class="modal-content">
+                <h2 id="modal-event-title"></h2>
+                <p id="modal-event-date"></p>
+                <p id="modal-event-local"></p>
+                <p id="modal-event-desc"></p>
+                <div class="modal-actions">
+                    <button id="modal-event-fav" class="btn-fav" data-item="" onclick="toggleFavorite(document.getElementById('modal-event-title').innerText)"><i class="far fa-heart"></i> Favoritar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <script src="script.js"></script>
 </body>
 </html>

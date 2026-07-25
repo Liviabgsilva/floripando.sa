@@ -59,6 +59,7 @@ body {
     transition: opacity 0.8s ease;
 }
 
+
 .loader-content {
     text-align: center;
 }
@@ -442,6 +443,114 @@ body {
     margin-bottom: 12px;
 }
 
+/* Eventos - cartão profissional */
+.event-card .card-img-wrapper {
+    height: 200px;
+}
+
+.event-card .card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-date-badge {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    background: var(--primary);
+    color: var(--dark);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    box-shadow: 0 6px 20px rgba(0, 160, 200, 0.2);
+}
+
+.event-desc {
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 16px;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--dark);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,160,200,0.2);
+}
+
+/* Modal de Evento */
+.event-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20000;
+}
+
+.event-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+}
+
+.event-modal-window {
+    position: relative;
+    max-width: 1000px;
+    width: 95%;
+    margin: 20px;
+    border-radius: 16px;
+    overflow: hidden;
+    z-index: 20010;
+    display: flex;
+    gap: 20px;
+}
+
+.event-modal-window .modal-img {
+    flex: 1 1 45%;
+    min-height: 320px;
+    overflow: hidden;
+}
+
+.event-modal-window .modal-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-modal-window .modal-content {
+    flex: 1 1 55%;
+    padding: 28px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    color: var(--white);
+    cursor: pointer;
+    z-index: 20100;
+}
+
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+}
+
+.event-modal.hidden { display: none !important; }
+
 .card-body p {
     color: rgba(255, 255, 255, 0.6);
     font-size: 0.9rem;
@@ -466,8 +575,45 @@ body {
     transition: var(--transition);
 }
 
-.btn-fav:hover, .btn-fav.active {
+.btn-fav:hover {
     color: #faf9f9;
+}
+
+/* Active favorite: red heart */
+.btn-fav.active {
+    color: #ff4a5a !important;
+}
+.btn-fav.active i {
+    color: #ff4a5a !important;
+    text-shadow: 0 6px 20px rgba(255,74,90,0.15);
+}
+
+/* Tooltip for favorite buttons */
+.btn-fav { position: relative; }
+.btn-fav[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.85);
+    color: var(--white);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    opacity: 1;
+}
+.btn-fav[data-tooltip]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.85) transparent transparent transparent;
 }
 
 /* Filtros */
@@ -1053,7 +1199,7 @@ body {
     }
 }
 
-/* Formulário de Contacto */
+/* Formulário de Contato */
 .contact-card {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1374,4 +1520,136 @@ body {
     .form-actions {
         flex-direction: column;
     }
+}
+
+/* ================= HOSPEDAGEM / HOTÉIS ================= */
+.menu-reserva-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 28px;
+}
+.menu-reserva-container .menu-titulo {
+    font-weight: 800;
+    color: var(--white);
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+.botoes-reserva {
+    display: flex;
+    gap: 12px;
+}
+.btn-reserva {
+    padding: 10px 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 700;
+    border: 1px solid transparent;
+    transition: var(--transition);
+}
+.btn-reserva.booking { background: linear-gradient(90deg, #3c83ca, #011afa); }
+.btn-reserva.hoteis { background: linear-gradient(90deg, #0a0097, #2300ec); }
+.btn-reserva.tripadvisor { background: linear-gradient(90deg, #344db9, #2b89f5); color: #1624a5; }
+.btn-reserva.airbnb { background: linear-gradient(90deg, #02007c, #4163fd); }
+.btn-reserva:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(85, 100, 236, 0.45); }
+
+/* Hospedagem cards specific */
+#hospedagem-grid .card {
+    border-radius: 18px;
+}
+#hospedagem-grid .card-body p { color: rgba(255,255,255,0.7); }
+#hospedagem-grid .card-body .hotel-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+.hotel-price { font-weight: 800; color: var(--primary); }
+.hotel-rating { background: rgba(255,255,255,0.03); padding: 6px 10px; border-radius: 12px; font-weight:700; }
+
+/* Hotel Modal */
+.hotel-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20000;
+}
+.hotel-modal-backdrop { position:absolute; inset:0; background: rgba(0,0,0,0.6); }
+.hotel-modal-window {
+    position: relative;
+    width: 92%;
+    max-width: 1100px;
+    background: transparent;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    gap: 24px;
+}
+.hotel-modal-window .modal-img { flex:1 1 45%; min-height: 320px; }
+.hotel-modal-window .modal-img img { width:100%; height:100%; object-fit:cover; }
+.hotel-modal-window .modal-content { flex:1 1 55%; padding: 28px; background: rgba(11,12,15,0.9); border-radius: 0 16px 16px 0; }
+.hotel-modal-window .modal-content h2 { margin-bottom: 8px; }
+.hotel-modal-window .modal-content p { color: rgba(255,255,255,0.8); }
+.hotel-modal .modal-close { position:absolute; top:12px; right:14px; background:transparent; border:none; font-size:1.8rem; color:var(--white); cursor:pointer; }
+.hotel-modal.hidden { display: none !important; }
+
+@media (max-width: 768px) {
+    .hotel-modal-window { flex-direction: column; }
+    .hotel-modal-window .modal-content { border-radius: 0 0 12px 12px; }
+}
+
+/* ================= GASTRONOMIA ================= */
+#gastronomia-grid .card-img-wrapper { height: 200px; }
+#gastronomia-grid .card-body h3 { font-size: 1.15rem; }
+#gastronomia-grid .card-body .event-desc { color: rgba(255,255,255,0.8); }
+#gastronomia-grid .card-body .hotel-meta { display:flex; gap:12px; align-items:center; justify-content:space-between; }
+#gastronomia-grid .btn-fav { color: rgba(255,255,255,0.6); border:1px solid rgba(255,255,255,0.04); padding:8px 10px; border-radius:10px; }
+/* Visit button used for gastronomy links (distinct from fav button) */
+.btn-visit {
+    display:inline-block;
+    background: rgba(255,255,255,0.04);
+    color: var(--white);
+    padding: 8px 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: var(--transition);
+}
+.btn-visit:hover { background: rgba(255,255,255,0.08); color: var(--primary); }
+
+/* Gastro modal reuses event-modal styles but tweak sizes */
+.event-modal-window .modal-img { min-height: 260px; }
+.event-modal-window .modal-content { padding: 22px; }
+
+@media (max-width: 768px) {
+    #gastronomia-grid .card-img-wrapper { height: 160px; }
+}
+/* Botão invisível, focado apenas no coração */
+.btn-favoritar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px; /* Tamanho do coração */
+  padding: 5px;
+  transition: transform 0.2s ease;
+}
+
+/* Efeito de clique */
+.btn-favoritar:active {
+  transform: scale(1.2);
+}
+
+/* Coração padrão (Branco / Vazio) */
+.btn-favoritar .coracao {
+  color: #ccc; /* Cor cinza clara ou branca para parecer vazio */
+}
+
+/* Quando o botão for clicado, ele ganha a classe 'favoritado' */
+.btn-favoritar.favoritado .coracao {
+  color: #ff5a5f; /* Vermelho vibrante */
+  content: '♥';   /* Opcional: Se quiser trocar o símbolo por um preenchido */
 }
