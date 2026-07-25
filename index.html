@@ -24,7 +24,7 @@
     <div id="loader">
         <div class="loader-content">
             <h1 class="logo-text">FLORI<span>PANDO</span></h1>
-            <p class="loader-sub">A carregar a melhor experiência...</p>
+            <p class="loader-sub">Carregando o seu blog de viagens...</p>
             <div class="progress-container">
                 <div class="progress-bar"></div>
             </div>
@@ -45,6 +45,7 @@
                 <li><a href="javascript:void(0)" onclick="showView('hospedagem')">Hospedagem</a></li>
                 <li><a href="javascript:void(0)" onclick="showView('gastronomia')">Gastronomia</a></li>
                 <li><a href="javascript:void(0)" onclick="showView('contato')">Contato</a></li>
+                <li><a href="javascript:void(0)" onclick="showView('feed')">Comunidade</a></li>
             </ul>
 
             <div class="nav-actions">
@@ -194,6 +195,97 @@
                 </div>
             </div>
         </section>
+
+        <!-- PÁGINA DE FEED / COMUNIDADE -->
+        <section id="view-feed" class="view section-padding">
+            <div class="container">
+                <header class="section-header">
+                    <h4 class="subtitle">Comunidade Floripando</h4>
+                    <h2 class="title">Experiências & Partilhas</h2>
+                    <p class="section-desc">Publique fotos, leia relatos e inspire-se nas experiências dos outros viajantes.</p>
+                </header>
+
+                <!-- Stories / Destaques -->
+                <div class="stories-row" role="list" aria-label="Destaques da comunidade">
+                    <!-- populated by JS -->
+                </div>
+
+                <!-- Categories horizontal -->
+                <div class="categories-row" aria-hidden="false">
+                    <button class="cat-btn active" onclick="filterFeed('all')">Todos</button>
+                    <button class="cat-btn" onclick="filterFeed('praia')">Praias</button>
+                    <button class="cat-btn" onclick="filterFeed('gastronomia')">Gastronomia</button>
+                    <button class="cat-btn" onclick="filterFeed('hospedagem')">Hospedagem</button>
+                    <button class="cat-btn" onclick="filterFeed('aventura')">Aventura</button>
+                </div>
+
+                <!-- Composer -->
+                <div class="feed-composer glass">
+                    <form id="composer-form" onsubmit="handleNewPost(event)">
+                        <div class="composer-top">
+                            <img id="composer-avatar" class="composer-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100" alt="Seu avatar">
+                            <input id="composer-caption" placeholder="Compartilhe uma foto e conte-nos sobre a sua viagem..." aria-label="Legenda" required>
+                        </div>
+                        <div class="composer-actions">
+                            <input type="file" id="composer-image" accept="image/*" aria-label="Imagem" required>
+                            <div style="display:flex; gap:8px; align-items:center;">
+                                <button class="btn-primary" type="submit">Publicar</button>
+                                <button type="button" class="btn-secondary" onclick="clearComposer()">Limpar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Feed list -->
+                <div id="feed-list" class="feed-list">
+                    <!-- posts injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Stories Viewer Modal -->
+        <div id="stories-modal" class="stories-modal hidden" role="dialog" aria-modal="true">
+            <div class="stories-backdrop" onclick="closeStories()"></div>
+            <div class="stories-window">
+                <button class="stories-close" onclick="closeStories()">&times;</button>
+                <div class="stories-top">
+                    <div class="stories-author">
+                        <img id="stories-author-avatar" src="" alt="autor"/>
+                        <div>
+                            <strong id="stories-author-name"></strong>
+                            <div id="stories-author-meta" style="font-size:0.85rem;color:rgba(255,255,255,0.75);"></div>
+                        </div>
+                    </div>
+                    <div class="stories-close-right">
+                        <button onclick="closeStories()" class="btn-icon">Fechar</button>
+                    </div>
+                </div>
+                <div id="stories-progress" class="stories-progress"></div>
+                <div id="stories-stage" class="stories-stage">
+                    <!-- image/video will be injected here -->
+                </div>
+                <div class="stories-controls">
+                    <div class="left-zone" onclick="prevStory()"></div>
+                    <div class="right-zone" onclick="nextStory()"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Story Modal -->
+        <div id="create-story-modal" class="stories-modal hidden" role="dialog" aria-modal="true">
+            <div class="stories-backdrop" onclick="closeCreateStory()"></div>
+            <div class="create-window glass">
+                <button class="stories-close" onclick="closeCreateStory()">&times;</button>
+                <h3>Criar Novo Story</h3>
+                <form id="create-story-form" onsubmit="handleCreateStory(event)">
+                    <label>Imagem/Vídeo <input type="file" id="story-file" accept="image/*,video/*" required></label>
+                    <label>Texto <input type="text" id="story-text" placeholder="Adicione um texto..." ></label>
+                    <label>Cor do texto <input type="color" id="story-text-color" value="#ffffff"></label>
+                    <label>Localização <input type="text" id="story-location" placeholder="Onde foi?" ></label>
+                    <div style="display:flex; gap:8px; margin-top:8px;"><button class="btn-primary" type="submit">Publicar</button><button type="button" class="btn-secondary" onclick="closeCreateStory()">Cancelar</button></div>
+                </form>
+            </div>
+        </div>
 
     <!-- PÁGINA DE CONTATO -->
         <section id="view-contato" class="view section-padding flex-center">
@@ -360,13 +452,13 @@
             <div class="chat-header">
                 <div class="chat-header-title">
                     <div class="status-indicator"></div>
-                    <span>Concierge Premium</span>
+                    <span>assistente virtual</span>
                 </div>
                 <button class="btn-close-chat" onclick="toggleChat()"><i class="fas fa-times"></i></button>
             </div>
             <div id="chat-body" class="chat-body">
                 <div class="chat-message bot">
-                    Olá! Sou o seu concierge virtual privado. Posso ajudar a encontrar o melhor restaurante ou organizar as suas reservas em Florianópolis 
+                    Olá! Sou o seu assistente  virtual . Posso ajudar a encontrar o melhor restaurante ou organizar as suas reservas em Florianópolis 
                 </div>
             </div>
             <div class="chat-footer">
@@ -384,7 +476,7 @@
         <div class="footer-container">
             <div class="footer-brand">
                 <h2>FLORI<span>PANDO</span></h2>
-                <p>A curadoria definitiva para quem exige o extraordinário. Viva a Ilha de Santa Catarina na sua máxima sofisticação.</p>
+                <p>O seu guia essencial para viver a Ilha da Magia. Descubra as melhores praias, roteiros e segredos de Florianópolis com dicas de quem realmente vive a cidade.</p>
                 <div class="footer-socials">
                     <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
                     <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
@@ -397,6 +489,7 @@
                     <li><a href="javascript:void(0)" onclick="showView('praias')">As Praias</a></li>
                     <li><a href="javascript:void(0)" onclick="showView('hospedagem')">Onde Ficar</a></li>
                     <li><a href="javascript:void(0)" onclick="showView('gastronomia')">Gastronomia</a></li>
+                       <li><a href="javascript:void(0)" onclick="showView('eventos')">Eventos</a></li>
                 </ul>
             </div>
             <div class="footer-contact">
@@ -407,7 +500,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Floripa Premium. Desenvolvido com padrões de luxo internacionais. Todos os direitos reservados.</p>
+            <p>&copy; 2026 Floripando Todos os direitos reservados.</p>
         </div>
         <div class="footer-map-container">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3531.7526449820817!2d-48.5521!3d-27.5973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95193c2e2e2e2e2f%3A0x0!2sFlorianópolis%2C%20Santa%20Catarina!5e0!3m2!1spt-BR!2sbr!4v1716014000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de Florianópolis"></iframe>

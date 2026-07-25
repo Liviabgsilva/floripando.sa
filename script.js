@@ -592,6 +592,24 @@ function updateUI() {
 }
 
 // --- RENDERIZAÇÃO DE GRELHAS DINÂMICAS ---
+// --- FAVORITE BUTTON HELPERS ---
+function isFavorited(name) {
+    try {
+        if (!currentUser || !Array.isArray(currentUser.favorites)) return false;
+        return currentUser.favorites.includes(name);
+    } catch (err) { return false; }
+}
+
+function favButtonHTML(name, label = '') {
+    const safeName = (name || '').replace(/'/g, "\\'");
+    const fav = isFavorited(name);
+    const cls = fav ? 'btn-fav active' : 'btn-fav';
+    const ico = fav ? 'fas' : 'far';
+    const tooltip = fav ? 'Remover' : 'Guardar';
+    const text = label ? (' ' + label) : '';
+    return `<button class="${cls}" data-item="${name}" data-tooltip="${tooltip}" onclick="toggleFavorite('${safeName}')"><i class="${ico} fa-heart"></i>${text}</button>`;
+}
+
 function renderGrids() {
     // Destinos Populares
     const destinosGrid = document.getElementById('destinos-grid');
@@ -608,7 +626,7 @@ function renderGrids() {
                         <h3>${d.nome}</h3>
                         <p>${d.desc}</p>
                         <div class="card-footer">
-                            <button class="btn-fav" data-item="${d.nome}" data-tooltip="Guardar" onclick="toggleFavorite('${d.nome}')"><i class="far fa-heart"></i> Guardar</button>
+                            ${favButtonHTML(d.nome, 'Guardar')}
                         </div>
                     </div>
                 </div>`;
@@ -622,7 +640,7 @@ function renderGrids() {
     const hospGrid = document.getElementById('hospedagem-grid');
     if (hospGrid) {
         hospGrid.innerHTML = '';
-        DATA.hospedagem.forEach(h => {
+    DATA.hospedagem.forEach(h => {
             // ensure safe attributes
             const safeName = h.nome.replace(/"/g, '&quot;');
             hospGrid.innerHTML += `
@@ -640,7 +658,7 @@ function renderGrids() {
                         </div>
                         <div style="margin-top:14px; display:flex; gap:10px; align-items:center;">
                             <button class="btn-primary" onclick="showHotelDetails('${encodeURIComponent(h.nome)}')">Ver Detalhes</button>
-                            <button class="btn-fav" data-item="${h.nome}" data-tooltip="Guardar" onclick="toggleFavorite('${h.nome.replace(/'/g, "\\'")}')"><i class="far fa-heart"></i></button>
+                            ${favButtonHTML(h.nome)}
                         </div>
                     </div>
                 </div>`;
@@ -714,7 +732,7 @@ function loadProfileData() {
                     <div class="card-footer" style="display:flex; flex-direction:column; align-items:flex-start; gap:8px;">
                         <span><i class="fas fa-thermometer-half"></i> Temp Água: ${p.temp}</span>
                         <span><i class="fas fa-users"></i> Movimento: ${p.lotacao}</span>
-                        <button class="btn-fav" style="align-self: flex-end; margin-top: 10px;" data-item="${p.nome}" data-tooltip="Guardar" onclick="toggleFavorite('${p.nome}')"><i class="far fa-heart"></i> Guardar</button>
+                        ${favButtonHTML(p.nome, 'Guardar')}
                     </div>
                 </div>
             </div>`;
@@ -786,7 +804,7 @@ function renderEventos() {
                             <span><i class="fas fa-map-marker-alt"></i> ${e.local}</span>
                         </div>
                         <div style="display:flex; gap:8px; align-items:center;">
-                            <button class="btn-fav" onclick="toggleFavorite('${e.nome}')"><i class="far fa-heart"></i> Favoritar</button>
+                            ${favButtonHTML(e.nome, 'Favoritar')}
                                 <button class="btn-primary" onclick="showEventDetails('${e.nome.replace(/'/g, "\\'")}')">Ver Detalhes</button>
                         </div>
                     </div>
@@ -844,6 +862,18 @@ function startEventsAutoRefresh() {
         // set modal favorite button data-item (visual active handled only on click)
         const me = document.getElementById('modal-event-fav');
         if (me) me.setAttribute('data-item', ev.nome);
+        // set visual state according to currentUser
+        if (me) {
+            if (isFavorited(ev.nome)) {
+                me.classList.add('active');
+                const ic = me.querySelector('i'); if (ic) { ic.classList.remove('far'); ic.classList.add('fas'); }
+                me.setAttribute('data-tooltip', 'Remover');
+            } else {
+                me.classList.remove('active');
+                const ic = me.querySelector('i'); if (ic) { ic.classList.remove('fas'); ic.classList.add('far'); }
+                me.setAttribute('data-tooltip', 'Guardar');
+            }
+        }
     }
 
     function closeEventModal() {
@@ -888,6 +918,18 @@ function startEventsAutoRefresh() {
         // hotel modal uses modal-hotel-book as CTA; fav button is not in hotel modal header
         const favBtn = document.querySelector(`#hotel-modal .btn-fav`);
         if (favBtn) favBtn.setAttribute('data-item', h.nome);
+        // set visual state for hotel modal fav
+        if (favBtn) {
+            if (isFavorited(h.nome)) {
+                favBtn.classList.add('active');
+                const ic = favBtn.querySelector('i'); if (ic) { ic.classList.remove('far'); ic.classList.add('fas'); }
+                favBtn.setAttribute('data-tooltip', 'Remover');
+            } else {
+                favBtn.classList.remove('active');
+                const ic = favBtn.querySelector('i'); if (ic) { ic.classList.remove('fas'); ic.classList.add('far'); }
+                favBtn.setAttribute('data-tooltip', 'Guardar');
+            }
+        }
     }
 
     function closeHotelModal() {
@@ -913,6 +955,17 @@ function startEventsAutoRefresh() {
         document.getElementById('gastro-modal').classList.remove('hidden');
         const mg = document.getElementById('modal-gastro-fav');
         if (mg) mg.setAttribute('data-item', g.nome);
+        if (mg) {
+            if (isFavorited(g.nome)) {
+                mg.classList.add('active');
+                const ic = mg.querySelector('i'); if (ic) { ic.classList.remove('far'); ic.classList.add('fas'); }
+                mg.setAttribute('data-tooltip', 'Remover');
+            } else {
+                mg.classList.remove('active');
+                const ic = mg.querySelector('i'); if (ic) { ic.classList.remove('fas'); ic.classList.add('far'); }
+                mg.setAttribute('data-tooltip', 'Guardar');
+            }
+        }
     }
 
     function closeGastroModal() {
@@ -944,7 +997,8 @@ function toggleFavorite(itemName) {
     const buttons = document.querySelectorAll(`[data-item]`);
     const isFavNow = currentUser.favorites.includes(itemName);
     buttons.forEach(b => {
-        if (b.getAttribute('data-item') === itemName) {
+        const bName = b.getAttribute('data-item') || '';
+        if (simpleNormalize(bName) === simpleNormalize(itemName)) {
             if (isFavNow) {
                 b.classList.add('active');
                 const ic = b.querySelector('i');
@@ -1403,3 +1457,293 @@ function toggleFavorito(botao) {
     coracao.innerHTML = '&#9825;'; // Coração vazado (♡)
   }
 }
+
+// --- FEED / COMUNIDADE ---
+const FEED_KEY = 'floripando_feed_v1';
+let FEED = JSON.parse(localStorage.getItem(FEED_KEY)) || [];
+
+// STORIES
+const STORIES_KEY = 'floripando_stories_v1';
+let STORIES = JSON.parse(localStorage.getItem(STORIES_KEY)) || [];
+
+function saveStories() { localStorage.setItem(STORIES_KEY, JSON.stringify(STORIES)); }
+
+// remove expired stories (24h)
+function pruneStories() {
+    const now = Date.now();
+    STORIES = STORIES.filter(s => (now - new Date(s.created).getTime()) < 24 * 3600 * 1000);
+    saveStories();
+}
+
+function storyItemId() { return 'story_' + Date.now() + '_' + Math.floor(Math.random()*9999); }
+
+// render stories row (with + create button)
+function renderStoriesRow() {
+    pruneStories();
+    const row = document.querySelector('.stories-row'); if (!row) return;
+    row.innerHTML = '';
+    // create new story button
+    const add = document.createElement('div'); add.className = 'story-item create'; add.innerHTML = `<div class="story-ring"><div class="story-add">+</div></div><div class="story-label">Criar</div>`;
+    add.addEventListener('click', () => openCreateStory()); row.appendChild(add);
+
+    // group stories by author
+    const grouped = {};
+    STORIES.forEach(s => { if (!grouped[s.authorEmail]) grouped[s.authorEmail] = []; grouped[s.authorEmail].push(s); });
+    // sort authors by latest story
+    const authors = Object.keys(grouped).sort((a,b) => new Date(grouped[b][0].created) - new Date(grouped[a][0].created));
+
+    authors.forEach(email => {
+        const stories = grouped[email];
+        const latest = stories[0];
+        const seen = stories.every(st => (currentUser && (st.views || []).includes(currentUser.email)));
+        const div = document.createElement('div'); div.className = 'story-item';
+        div.innerHTML = `<div class="story-ring ${seen ? 'seen' : 'unseen'}"><div class="story-avatar"><img src="${latest.avatar}" alt="${latest.author}"></div></div><div class="story-label">${latest.author}</div>`;
+        div.addEventListener('click', () => openStoriesViewer(email));
+        row.appendChild(div);
+    });
+}
+
+// viewer state
+let _viewer = { authorEmail: null, stories: [], idx: 0, timer: null, duration: 5000 };
+
+function openStoriesViewer(authorEmail) {
+    const modal = document.getElementById('stories-modal'); if (!modal) return;
+    const authorStories = STORIES.filter(s => s.authorEmail === authorEmail).sort((a,b)=> new Date(a.created) - new Date(b.created));
+    if (!authorStories || authorStories.length === 0) return;
+    _viewer.authorEmail = authorEmail; _viewer.stories = authorStories; _viewer.idx = 0;
+    document.getElementById('stories-author-avatar').src = authorStories[0].avatar;
+    document.getElementById('stories-author-name').innerText = authorStories[0].author;
+    document.getElementById('stories-author-meta').innerText = authorStories.length + ' stories';
+    modal.classList.remove('hidden');
+    buildProgress();
+    showStory(0);
+}
+
+function closeStories() {
+    const modal = document.getElementById('stories-modal'); if (!modal) return;
+    modal.classList.add('hidden');
+    clearTimeout(_viewer.timer);
+    _viewer = { authorEmail: null, stories: [], idx: 0, timer: null, duration: 5000 };
+}
+
+function buildProgress() {
+    const prog = document.getElementById('stories-progress'); if (!prog) return; prog.innerHTML = '';
+    _viewer.stories.forEach((s,i) => { const b = document.createElement('div'); b.className='bar'; b.innerHTML = `<div class="fill" id="fill-${i}" style="width:0%"></div>`; prog.appendChild(b); });
+}
+
+function showStory(i) {
+    if (!_viewer.stories || !_viewer.stories[i]) return;
+    _viewer.idx = i;
+    const s = _viewer.stories[i];
+    const stage = document.getElementById('stories-stage'); stage.innerHTML = '';
+    if (s.type === 'video') {
+        const v = document.createElement('video'); v.src = s.url; v.autoplay = true; v.controls = false; v.playsInline = true; v.onended = () => nextStory(); stage.appendChild(v);
+    } else {
+        const img = document.createElement('img'); img.src = s.url; stage.appendChild(img);
+    }
+    // mark view
+    if (currentUser && !s.views) s.views = [];
+    if (currentUser && !s.views.includes(currentUser.email)) { s.views.push(currentUser.email); saveStories(); }
+    // progress animate
+    animateProgress(i, _viewer.duration);
+}
+
+function animateProgress(idx, duration) {
+    const fill = document.getElementById(`fill-${idx}`); if (!fill) return;
+    fill.style.transition = `width ${duration}ms linear`;
+    requestAnimationFrame(()=> { fill.style.width = '100%'; });
+    clearTimeout(_viewer.timer);
+    _viewer.timer = setTimeout(() => {
+        // next
+        if (idx < _viewer.stories.length - 1) nextStory();
+        else {
+            // move to next author if exists
+            const authors = Array.from(new Set(STORIES.map(s=>s.authorEmail)));
+            const curIndex = authors.indexOf(_viewer.authorEmail);
+            if (curIndex >=0 && curIndex < authors.length-1) openStoriesViewer(authors[curIndex+1]); else closeStories();
+        }
+    }, duration);
+}
+
+function nextStory() { showStory(Math.min(_viewer.stories.length -1, _viewer.idx +1)); }
+function prevStory() { showStory(Math.max(0, _viewer.idx -1)); }
+
+// create story
+function openCreateStory() { document.getElementById('create-story-modal').classList.remove('hidden'); }
+function closeCreateStory() { document.getElementById('create-story-modal').classList.add('hidden'); }
+
+function handleCreateStory(e) {
+    e.preventDefault();
+    if (!currentUser) { alert('Faça login para criar stories.'); showView('login'); return; }
+    const fileEl = document.getElementById('story-file'); if (!fileEl.files || fileEl.files.length===0) return alert('Escolha um ficheiro.');
+    const file = fileEl.files[0];
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+        const url = ev.target.result;
+        const type = file.type.startsWith('video') ? 'video' : 'image';
+        const story = { id: storyItemId(), author: currentUser.name, authorEmail: currentUser.email, avatar: currentUser.avatar, url, type, text: document.getElementById('story-text').value || '', color: document.getElementById('story-text-color').value || '#fff', location: document.getElementById('story-location').value || '', created: new Date().toISOString(), views: [] };
+        STORIES.unshift(story); saveStories(); renderStoriesRow(); closeCreateStory();
+    };
+    reader.readAsDataURL(file);
+}
+
+// handle taps: left/right zones already call prev/next via onclick in HTML
+
+// initialization for stories
+document.addEventListener('DOMContentLoaded', () => { renderStoriesRow(); });
+
+function saveFeed() { localStorage.setItem(FEED_KEY, JSON.stringify(FEED)); }
+
+function sampleStories() {
+    return [
+        { nome: 'Explorador', img: 'img.praias/Jurerê Internacional.png' },
+        { nome: 'Gastrô', img: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=800&auto=format&fit=crop' },
+        { nome: 'Aventura', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1400&auto=format&fit=crop' },
+        { nome: 'Relax', img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1400&auto=format&fit=crop' }
+    ];
+}
+
+function renderStories() {
+    const row = document.querySelector('.stories-row'); if (!row) return;
+    const items = sampleStories();
+    row.innerHTML = '';
+    items.forEach(it => {
+        const div = document.createElement('div'); div.className = 'story-item';
+        div.innerHTML = `<div class="story-avatar"><img src="${it.img}" alt="${it.nome}"></div><div class="story-label">${it.nome}</div>`;
+        row.appendChild(div);
+    });
+}
+
+function feedItemId() { return 'post_' + Date.now() + '_' + Math.floor(Math.random()*9999); }
+
+function handleNewPost(e) {
+    e.preventDefault();
+    if (!currentUser) { alert('Faça login para publicar.'); showView('login'); return; }
+    const fileEl = document.getElementById('composer-image');
+    const caption = document.getElementById('composer-caption').value.trim();
+    if (!fileEl.files || fileEl.files.length === 0) return alert('Adicione uma imagem.');
+    const file = fileEl.files[0];
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+        const dataUrl = ev.target.result;
+        const post = {
+            id: feedItemId(),
+            author: currentUser.name,
+            avatar: currentUser.avatar,
+            img: dataUrl,
+            caption,
+            categoria: 'praia',
+            date: new Date().toISOString(),
+            likes: [],
+            favorites: [],
+            comments: []
+        };
+        FEED.unshift(post);
+        saveFeed();
+        clearComposer();
+        renderFeed();
+        showView('feed');
+    };
+    reader.readAsDataURL(file);
+}
+
+function clearComposer() {
+    document.getElementById('composer-caption').value = '';
+    document.getElementById('composer-image').value = '';
+}
+
+function formatDate(iso) {
+    try { const d = new Date(iso); return d.toLocaleString('pt-BR', { dateStyle:'medium', timeStyle:'short' }); } catch(e){ return iso; }
+}
+
+function renderFeed(filter='all') {
+    const list = document.getElementById('feed-list'); if (!list) return;
+    list.innerHTML = '';
+    FEED.forEach(post => {
+        if (filter !== 'all' && post.categoria !== filter) return;
+        const card = document.createElement('article'); card.className = 'feed-card';
+        card.setAttribute('role','article');
+        const liked = currentUser && post.likes.includes(currentUser.email);
+        const bookmarked = currentUser && post.favorites.includes(currentUser.email);
+        card.innerHTML = `
+            <div class="card-media">
+                <img src="${post.img}" alt="Post by ${post.author}">
+                <div class="media-top">
+                    <div class="author-chip">
+                        <div class="avatar"><img src="${post.avatar}" alt="${post.author}"></div>
+                        <div class="author-text"><strong>${post.author}</strong><small>${formatDate(post.date)}</small></div>
+                    </div>
+                </div>
+                <div class="media-actions">
+                    <div class="actions-left">
+                        <button class="icon-btn btn-like ${liked ? 'active' : ''}" data-id="${post.id}" onclick="toggleLike('${post.id}')"><i class="${liked ? 'fas' : 'far'} fa-heart"></i><span class="count">${post.likes.length}</span></button>
+                    </div>
+                    <div class="actions-right">
+                        <button class="icon-btn btn-fav ${bookmarked ? 'active' : ''}" data-item="${post.id}" onclick="togglePostFavorite('${post.id}')"><i class="${bookmarked ? 'fas' : 'far'} fa-bookmark"></i></button>
+                        <button class="icon-btn btn-share" onclick="sharePost('${post.id}')"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="feed-desc">${post.caption}</div>
+                <div class="comment-list" id="comments-${post.id}">
+                    ${post.comments.map(c => `<div class="comment-item"><div class="c-avatar"><img src="${c.avatar}" alt="${c.author}"></div><div class="c-body"><strong>${c.author}</strong><div>${c.text}</div></div></div>`).join('')}
+                </div>
+                <div class="comment-form">
+                    <input id="input-${post.id}" placeholder="Adicione um comentário..." aria-label="Adicionar comentário">
+                    <button onclick="addComment('${post.id}')" class="btn-primary">Enviar</button>
+                </div>
+            </div>`;
+        list.appendChild(card);
+        // set fav btn visual
+        const favBtn = card.querySelector('.btn-fav');
+        if (favBtn) {
+            if (post.favorites.includes(currentUser ? currentUser.email : '')) {
+                favBtn.classList.add('active'); const ic = favBtn.querySelector('i'); if (ic) { ic.classList.remove('far'); ic.classList.add('fas'); }
+            }
+        }
+    });
+}
+
+function toggleLike(postId) {
+    if (!currentUser) { alert('Faça login para interagir.'); showView('login'); return; }
+    const p = FEED.find(x => x.id === postId); if (!p) return;
+    const idx = p.likes.indexOf(currentUser.email);
+    if (idx === -1) p.likes.push(currentUser.email); else p.likes.splice(idx,1);
+    saveFeed(); renderFeed();
+    // microinteraction: briefly animate the like button if present
+    const btn = document.querySelector(`.btn-like[data-id="${postId}"]`);
+    if (btn) {
+        btn.classList.add('like-pop');
+        setTimeout(() => btn.classList.remove('like-pop'), 600);
+    }
+}
+
+function togglePostFavorite(postId) {
+    if (!currentUser) { alert('Faça login para salvar posts.'); showView('login'); return; }
+    const p = FEED.find(x => x.id === postId); if (!p) return;
+    const idx = p.favorites.indexOf(currentUser.email);
+    if (idx === -1) p.favorites.push(currentUser.email); else p.favorites.splice(idx,1);
+    saveFeed(); renderFeed();
+}
+
+function sharePost(postId) { alert('Link copiado para a área de transferência (simulado).'); }
+
+function addComment(postId) {
+    if (!currentUser) { alert('Faça login para comentar.'); showView('login'); return; }
+    const input = document.getElementById(`input-${postId}`);
+    if (!input || !input.value.trim()) return;
+    const p = FEED.find(x => x.id === postId); if (!p) return;
+    const comment = { author: currentUser.name.split(' ')[0], avatar: currentUser.avatar, text: input.value.trim(), date: new Date().toISOString() };
+    p.comments.push(comment);
+    input.value = '';
+    saveFeed(); renderFeed();
+}
+
+function filterFeed(cat) { renderFeed(cat === 'all' ? 'all' : cat); }
+
+// init feed on load
+document.addEventListener('DOMContentLoaded', () => {
+    renderStories();
+    renderFeed();
+});
